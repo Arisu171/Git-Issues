@@ -31,6 +31,9 @@ upload/
 private/
 zdraft/
 
+# Vercel CLI sinh ra khi link project (chua projectId/orgId).
+.vercel
+
 # Tệp nháp mở bằng trình duyệt, không thuộc mã nguồn.
 /temp.html
 
