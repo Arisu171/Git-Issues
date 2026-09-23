@@ -232,25 +232,26 @@ export function UsersPanel() {
                           })}
                           {user.roles.length === 0 && <span className="muted">{tr('Chưa có role')}</span>}
                           {canAssignRole && canManage(user) && roles.length > 0 && (
-                          <Select
-                            chip
-                            value=""
-                            placeholder="+"
-                            ariaLabel={tr('Gán role')}
-                            disabled={action.isProcessing}
-                            onChange={(roleId) => {
-                              const role = roles.find((r) => r.id === roleId);
-                              if (role) {
-                                void run(
-                                  () => api.assignRole(user.id, roleId),
-                                  tr('Đã gán role "{v0}".', { v0: role.name }),
-                                );
-                              }
-                            }}
-                            options={roles
-                              .filter((r) => !user.roles.includes(r.name) && r.rank <= myLevel)
-                              .map((r) => ({ value: r.id, label: r.name }))}
-                          />
+                            <Select
+                              chip
+                              value=""
+                              placeholder="+"
+                              ariaLabel={tr('Gán role')}
+                              menuWidth={160}
+                              disabled={action.isProcessing}
+                              onChange={(roleId) => {
+                                const role = roles.find((r) => r.id === roleId);
+                                if (role) {
+                                  void run(
+                                    () => api.assignRole(user.id, roleId),
+                                    tr('Đã gán role "{v0}".', { v0: role.name }),
+                                  );
+                                }
+                              }}
+                              options={roles
+                                .filter((r) => !user.roles.includes(r.name) && r.rank <= myLevel)
+                                .map((r) => ({ value: r.id, label: r.name }))}
+                            />
                           )}
                         </div>
                       </td>
