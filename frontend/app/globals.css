@@ -343,12 +343,16 @@
   --page-title-size: 32px;
 }
 
-html,
-body {
+html {
   height: 100%;
 }
-
+/*
+ * Body phải cao theo nội dung, không khóa đúng viewport. `height: 100%` trên body khiến
+ * `.gh-chrome` (sticky) chỉ bám trong một hộp cao 100vh — cuộn quá mức đó thì header và
+ * menubar bị kéo khỏi màn hình.
+ */
 body {
+  min-height: 100%;
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
