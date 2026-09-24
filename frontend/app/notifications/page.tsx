@@ -39,7 +39,7 @@ function Inbox() {
       <PageHead
         kicker={page ? tr('{v0} chưa đọc', { v0: page.items.filter((n) => n.unread).length }) : 'Inbox'}
         title="Inbox"
-        actions={<button type="button" className="btn btn-secondary" onClick={() => tickets.markAllRead().then(() => load()).catch(setError)}>Mark all read</button>}
+        actions={<button type="button" className="btn btn-secondary" onClick={() => tickets.markAllRead().then(() => load()).catch(setError)}>{tr('Đánh dấu đã đọc hết')}</button>}
       />
       {error ? <ErrorBox error={error} /> : null}
 
@@ -56,10 +56,10 @@ function Inbox() {
 
       {/* Hàng tab của bản mẫu: kẻ trên và dưới, chú thích "một luồng mỗi ticket" dạt phải. */}
       <div className="inbox-tabs">
-        <button type="button" className={tab === 'inbox' ? 'active' : ''} onClick={() => setTab('inbox')}>Unread</button>
-        <button type="button" className={tab === 'saved' ? 'active' : ''} onClick={() => setTab('saved')}>Saved</button>
-        <button type="button" className={tab === 'done' ? 'active' : ''} onClick={() => setTab('done')}>Done</button>
-        <span className="hint">One thread per issue</span>
+        <button type="button" className={tab === 'inbox' ? 'active' : ''} onClick={() => setTab('inbox')}>{tr('Chưa đọc')}</button>
+        <button type="button" className={tab === 'saved' ? 'active' : ''} onClick={() => setTab('saved')}>{tr('Đã lưu')}</button>
+        <button type="button" className={tab === 'done' ? 'active' : ''} onClick={() => setTab('done')}>{tr('Xong')}</button>
+        <span className="hint">{tr('Một luồng mỗi ticket')}</span>
       </div>
 
       <div>
@@ -72,12 +72,12 @@ function Inbox() {
               <Link href={`/projects/${n.ticket.projectSlug}/issues/${n.ticket.number}`} onClick={() => n.unread && patch(n, { unread: false })}>{n.ticket.title}</Link>
               <div className="reason">
                 {n.ticket.projectSlug} #{n.ticket.number} · {n.lastEventType?.toLowerCase().replace(/_/g, ' ')}
-                {n.lastActor && <> bởi {n.lastActor.login}</>} · {timeAgo(n.updatedAt)}
+                {n.lastActor && tr(' bởi {v0}', { v0: n.lastActor.login })} · {timeAgo(n.updatedAt)}
               </div>
             </div>
             <div className="notif-actions">
-              <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => patch(n, { done: !n.isDone })}>{n.isDone ? 'Undone' : 'Done'}</button>
-              <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => patch(n, { saved: !n.isSaved })}>{n.isSaved ? 'Unsave' : 'Save'}</button>
+              <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => patch(n, { done: !n.isDone })}>{n.isDone ? tr('Bỏ xong') : tr('Xong')}</button>
+              <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => patch(n, { saved: !n.isSaved })}>{n.isSaved ? tr('Bỏ lưu') : tr('Lưu')}</button>
               <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => patch(n, { unread: !n.unread })}>{n.unread ? tr('Đã đọc') : tr('Chưa đọc')}</button>
             </div>
           </div>

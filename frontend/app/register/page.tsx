@@ -109,10 +109,8 @@ export default function RegisterPage() {
         <div className="kicker">{tr('Tài khoản')}</div>
         <h2>{tr('Tạo tài khoản')}</h2>
         <p className="card-hint">
-          {tr('Không cần liên hệ quản trị viên. Tài khoản mới là')} <strong>{tr('khách hàng')}</strong>: gửi
-          được sự cố và phản hồi, theo dõi được tiến độ xử lý, và chỉ nhìn thấy đúng những gì
-          mình đã gửi. Việc xử lý sự cố thuộc về đội hỗ trợ; muốn tham gia xử lý thì quản trị
-          viên cấp thêm vai trò sau.
+          {tr('Không cần liên hệ quản trị viên. Tài khoản mới là')} <strong>{tr('khách hàng')}</strong>
+          {tr(': gửi được sự cố và phản hồi, theo dõi được tiến độ xử lý, và chỉ nhìn thấy đúng những gì mình đã gửi. Việc xử lý sự cố thuộc về đội hỗ trợ; muốn tham gia xử lý thì quản trị viên cấp thêm vai trò sau.')}
         </p>
 
         {loadPolicy.status === 'failed' && <ErrorBox error={loadPolicy.error} />}
@@ -128,7 +126,7 @@ export default function RegisterPage() {
 
         <form onSubmit={submit}>
           <div className="field">
-            <label htmlFor="email">Email<RequiredMark /></label>
+            <label htmlFor="email">{tr('Email')}<RequiredMark /></label>
             <input
               id="email"
               type="email"
@@ -140,7 +138,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="username">Username<RequiredMark /></label>
+            <label htmlFor="username">{tr('Tên đăng nhập')}<RequiredMark /></label>
             <input
               id="username"
               required
@@ -171,7 +169,7 @@ export default function RegisterPage() {
 
           <div className="field">
             <label htmlFor="password">
-              Mật khẩu {policy && tr('(tối thiểu {v0} ký tự)', { v0: policy.minPasswordLength })}
+              {tr('Mật khẩu')} {policy && tr('(tối thiểu {v0} ký tự)', { v0: policy.minPasswordLength })}
             <RequiredMark /></label>
             <PasswordInput
               id="password"

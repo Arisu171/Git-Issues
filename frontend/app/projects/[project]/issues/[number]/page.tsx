@@ -144,16 +144,16 @@ function IssueDetail() {
             title={<>{ticket.title} <span className="num">#{ticket.number}</span></>}
             actions={<>
               {canEditContent && <button type="button" className="btn btn-secondary" onClick={() => setEditingTitle(true)}>{tr('Sửa tiêu đề')}</button>}
-              {session.can('ticket.create') && <Link href={`/projects/${project}/issues/new`} className="btn btn-primary">New issue</Link>}
+              {session.can('ticket.create') && <Link href={`/projects/${project}/issues/new`} className="btn btn-primary">{tr('Issue mới')}</Link>}
             </>}
           />
         )}
         <div className="meta">
           <StateBadge ticket={ticket} />
           {ticket.type && <TypeChip name={ticket.type.name} color={ticket.type.color} />}
-          {ticket.pinned && <span className="tag tag-outline">Pinned</span>}
-          {ticket.locked && <span className="tag tag-outline">Locked{ticket.activeLockReason ? ` · ${ticket.activeLockReason.toLowerCase().replace('_', ' ')}` : ''}</span>}
-          <span><strong>{ticket.author.login}</strong> đã mở {timeAgo(ticket.createdAt)} · {ticket.comments} bình luận</span>
+          {ticket.pinned && <span className="tag tag-outline">{tr('Đã ghim')}</span>}
+          {ticket.locked && <span className="tag tag-outline">{tr('Đã khoá')}{ticket.activeLockReason ? ` · ${ticket.activeLockReason.toLowerCase().replace('_', ' ')}` : ''}</span>}
+          <span><strong>{ticket.author.login}</strong> {tr('đã mở {v0} · {v1} bình luận', { v0: timeAgo(ticket.createdAt), v1: ticket.comments })}</span>
           {openDup && <span>{tr('· trùng với')} <Link href={`/projects/${openDup.projectSlug}/issues/${openDup.number}`}>#{openDup.number}</Link></span>}
           {ticket.parent && <span>{tr('· sub-issue của')} <Link href={`/projects/${ticket.parent.projectSlug}/issues/${ticket.parent.number}`}>#{ticket.parent.number}</Link></span>}
           {/* Ẩn dấu vết hệ thống (gắn nhãn, đổi trạng thái…). Bình luận không bao giờ bị ẩn:
@@ -184,7 +184,7 @@ function IssueDetail() {
             <div className="tl-comment-head">
               <Avatar user={ticket.author} />
               <Link href={`/profiles/${ticket.author.login}`}><strong>{ticket.author.login}</strong></Link>
-              <span title={formatDate(ticket.createdAt)}>đã mở {timeAgo(ticket.createdAt)}</span>
+              <span title={formatDate(ticket.createdAt)}>{tr('đã mở {v0}', { v0: timeAgo(ticket.createdAt) })}</span>
               {ticket.updatedAt !== ticket.createdAt && ticket.body !== '' ? null : null}
               <span className="grow" />
               <span className="assoc">{ticket.authorAssociation.toLowerCase().replace(/_/g, ' ')}</span>
@@ -225,10 +225,10 @@ function IssueDetail() {
             onEventDeleted={(id) => setEvents((prev) => prev.filter((e) => e.id !== id))} />
 
           {ticket.locked && !canWrite ? (
-            <div className="locked-note">{Icons.lock} Hội thoại đã bị khoá{ticket.activeLockReason ? ` (${ticket.activeLockReason.toLowerCase().replace('_', ' ')})` : ''}. Chỉ nhân viên có quyền Write mới bình luận được.</div>
+            <div className="locked-note">{Icons.lock} {tr('Hội thoại đã bị khoá{v0}. Chỉ nhân viên có quyền Write mới bình luận được.', { v0: ticket.activeLockReason ? ` (${ticket.activeLockReason.toLowerCase().replace('_', ' ')})` : '' })}</div>
           ) : commentAllowed && (
             <div className="comment-composer">
-              <MarkdownEditor value={comment} onChange={setComment} project={project} placeholder={internal ? tr('Ghi chú nội bộ…') : 'Leave a comment'} disabled={busy} onSubmit={() => submitComment()} />
+              <MarkdownEditor value={comment} onChange={setComment} project={project} placeholder={internal ? tr('Ghi chú nội bộ…') : tr('Viết bình luận')} disabled={busy} onSubmit={() => submitComment()} />
               {canInternal && (
                 <label className="radio" style={{ fontSize: 13 }}>
                   <input type="checkbox" checked={internal} onChange={(e) => setInternal(e.target.checked)} /><span className="dot" />
@@ -239,20 +239,20 @@ function IssueDetail() {
                 {canChangeState && ticket.state === 'OPEN' && (
                   <span className="gh-menu" ref={closeMenuRef}>
                     <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => setCloseMenu((v) => !v)}>
-                      {comment.trim() ? 'Close with comment' : 'Close as completed'}
+                      {comment.trim() ? tr('Đóng kèm bình luận') : tr('Đóng vì hoàn thành')}
                       <span style={{ opacity: 0.6, marginLeft: 2, display: 'inline-flex' }}>{Icons.chevron}</span>
                     </button>
                     {closeMenu && (
                       <div className="gh-dropdown">
-                        <button type="button" className="item" onClick={() => { setCloseMenu(false); void submitComment(() => patch({ state: 'closed', stateReason: 'completed' }, tr('Đã đóng ticket (completed).')), tr('Đã đóng ticket (completed).')); }}>Close as completed</button>
-                        <button type="button" className="item" onClick={() => { setCloseMenu(false); void submitComment(() => patch({ state: 'closed', stateReason: 'not_planned' }, tr('Đã đóng ticket (not planned).')), tr('Đã đóng ticket (not planned).')); }}>Close as not planned</button>
-                        {canTriage && <button type="button" className="item" onClick={() => { setCloseMenu(false); const d = prompt(tr('Ticket gốc (#N hoặc project#N):')); if (d) void submitComment(() => patch({ state: 'closed', stateReason: 'duplicate', duplicateOf: d }, tr('Đã đóng ticket (duplicate).')), tr('Đã đóng ticket (duplicate).')); }}>Close as duplicate</button>}
+                        <button type="button" className="item" onClick={() => { setCloseMenu(false); void submitComment(() => patch({ state: 'closed', stateReason: 'completed' }, tr('Đã đóng ticket (completed).')), tr('Đã đóng ticket (completed).')); }}>{tr('Đóng vì hoàn thành')}</button>
+                        <button type="button" className="item" onClick={() => { setCloseMenu(false); void submitComment(() => patch({ state: 'closed', stateReason: 'not_planned' }, tr('Đã đóng ticket (not planned).')), tr('Đã đóng ticket (not planned).')); }}>{tr('Đóng vì không làm')}</button>
+                        {canTriage && <button type="button" className="item" onClick={() => { setCloseMenu(false); const d = prompt(tr('Ticket gốc (#N hoặc project#N):')); if (d) void submitComment(() => patch({ state: 'closed', stateReason: 'duplicate', duplicateOf: d }, tr('Đã đóng ticket (duplicate).')), tr('Đã đóng ticket (duplicate).')); }}>{tr('Đóng vì trùng')}</button>}
                       </div>
                     )}
                   </span>
                 )}
-                {canChangeState && ticket.state === 'CLOSED' && <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => submitComment(() => patch({ state: 'open' }, tr('Đã mở lại ticket.')), tr('Đã mở lại ticket.'))}>Reopen issue</button>}
-                <button type="button" className="btn btn-primary" disabled={busy || !comment.trim()} onClick={() => submitComment()}>{busy ? tr('Đang gửi…') : 'Comment'}</button>
+                {canChangeState && ticket.state === 'CLOSED' && <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => submitComment(() => patch({ state: 'open' }, tr('Đã mở lại ticket.')), tr('Đã mở lại ticket.'))}>{tr('Mở lại issue')}</button>}
+                <button type="button" className="btn btn-primary" disabled={busy || !comment.trim()} onClick={() => submitComment()}>{busy ? tr('Đang gửi…') : tr('Bình luận')}</button>
               </div>
             </div>
           )}

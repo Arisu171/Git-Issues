@@ -31,8 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <I18nProvider>
-          <TopBar />
-          <ProjectNav />
+          <div className="gh-chrome">
+            <TopBar />
+            <ProjectNav />
+          </div>
           {/* Khung nội dung dùng chung cho mọi trang: cùng bề rộng, cùng lề, cùng khoảng cách dọc. */}
           <main className="shell">{children}</main>
         </I18nProvider>

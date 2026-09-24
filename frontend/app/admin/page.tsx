@@ -15,7 +15,7 @@ function AdminScreen() {
 
   return (
     <>
-      <PageHead kicker="Administration" title="Roles & permissions" />
+      <PageHead kicker={tr('Quản trị')} title={tr('Vai trò & quyền')} />
 
       <div className="tabs">
         <button
@@ -31,7 +31,7 @@ function AdminScreen() {
             className={tab === 'roles' ? 'tab active' : 'tab'}
             onClick={() => setTab('roles')}
           >
-            {tr('Vai trò &amp; quyền')}
+            {tr('Vai trò & quyền')}
           </button>
         )}
       </div>
