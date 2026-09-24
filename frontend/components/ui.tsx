@@ -422,7 +422,7 @@ export function Pager({
         {tr('Trước')}
       </button>
       <span>
-        Trang {page}/{totalPages} · {totalCount} bản ghi
+        {tr('Trang {v0}/{v1} · {v2} bản ghi', { v0: page, v1: totalPages, v2: totalCount })}
       </span>
       <button
         type="button"
@@ -430,7 +430,7 @@ export function Pager({
         disabled={page >= totalPages}
         onClick={() => onChange(page + 1)}
       >
-        Sau
+        {tr('Sau')}
       </button>
     </div>
   );

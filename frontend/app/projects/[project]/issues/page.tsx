@@ -125,9 +125,9 @@ function IssuesList() {
 
       <div className="pager">
         {page?.nextCursor && (
-          <button type="button" className="btn btn-secondary" onClick={() => router.push(`/projects/${project}/issues?q=${encodeURIComponent(q)}&cursor=${encodeURIComponent(page.nextCursor!)}`)}>Trang sau →</button>
+          <button type="button" className="btn btn-secondary" onClick={() => router.push(`/projects/${project}/issues?q=${encodeURIComponent(q)}&cursor=${encodeURIComponent(page.nextCursor!)}`)}>{tr('Trang sau →')}</button>
         )}
-        <span>Cursor pagination · 25 mỗi trang{page?.totalCount != null ? tr(' · {v0} kết quả', { v0: page.totalCount }) : ''}</span>
+        <span>{tr('Phân trang cursor · 25 mỗi trang')}{page?.totalCount != null ? tr(' · {v0} kết quả', { v0: page.totalCount }) : ''}</span>
       </div>
 
       <p className="muted" style={{ fontSize: 12 }}>

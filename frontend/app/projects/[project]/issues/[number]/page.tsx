@@ -225,7 +225,7 @@ function IssueDetail() {
             onEventDeleted={(id) => setEvents((prev) => prev.filter((e) => e.id !== id))} />
 
           {ticket.locked && !canWrite ? (
-            <div className="locked-note">{Icons.lock} Hội thoại đã bị khoá{ticket.activeLockReason ? ` (${ticket.activeLockReason.toLowerCase().replace('_', ' ')})` : ''}. Chỉ nhân viên có quyền Write mới bình luận được.</div>
+            <div className="locked-note">{Icons.lock} {tr('Hội thoại đã bị khoá{v0}. Chỉ nhân viên có quyền Write mới bình luận được.', { v0: ticket.activeLockReason ? ` (${ticket.activeLockReason.toLowerCase().replace('_', ' ')})` : '' })}</div>
           ) : commentAllowed && (
             <div className="comment-composer">
               <MarkdownEditor value={comment} onChange={setComment} project={project} placeholder={internal ? tr('Ghi chú nội bộ…') : tr('Viết bình luận')} disabled={busy} onSubmit={() => submitComment()} />

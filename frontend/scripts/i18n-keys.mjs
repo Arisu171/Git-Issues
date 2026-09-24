@@ -77,6 +77,15 @@ for (const dir of DIRS) {
         keys.add(m[1]);
       }
     }
+    // JSX xen `{biến}`: `>25 mỗi trang{n}<` không khớp mẫu `>…<` vì có ngoặc nhọn.
+    // Đó là lỗ đã lọt "Cursor pagination · 25 mỗi trang" và "đã {n}h / ngưỡng {n}h".
+    const viWord = /[\p{L}\p{N}]*[À-ỹ][\p{L}\p{N}]+|[\p{L}\p{N}]+[À-ỹ][\p{L}\p{N}]*/u;
+    for (const m of noStrings.matchAll(/>\s*([^<>{}\n]*[À-ỹ][^<>{}\n]*)\{/g)) {
+      if (viWord.test(m[1])) keys.add(m[1].trim());
+    }
+    for (const m of noStrings.matchAll(/\}([^<>{}\n]*[À-ỹ][^<>{}\n]*)\s*</g)) {
+      if (viWord.test(m[1])) keys.add(m[1].trim());
+    }
   }
 }
 

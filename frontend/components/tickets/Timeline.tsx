@@ -164,7 +164,7 @@ export function CommentCard({
         </strong>
         <span title={formatDate(e.createdAt)}>{isInternal ? timeAgo(e.createdAt) : tr('bình luận {v0}', { v0: timeAgo(e.createdAt) })}</span>
         {e.isEdited && <span title={e.editedAt ? tr('sửa {v0}', { v0: formatDate(e.editedAt) }) : ''}>{tr('· đã sửa')}</span>}
-        {e.isHidden && <span>· đã ẩn ({e.hiddenReason?.toLowerCase().replace('_', ' ')})</span>}
+        {e.isHidden && <span>{tr('· đã ẩn ({v0})', { v0: e.hiddenReason?.toLowerCase().replace('_', ' ') ?? '' })}</span>}
         <span className="grow" />
         {e.authorAssociation && e.authorAssociation !== 'NONE' && <span className="assoc">{e.authorAssociation.toLowerCase().replace(/_/g, ' ')}</span>}
         {e.isHidden && <button type="button" className="ghost small" onClick={() => setExpanded((v) => !v)}>{expanded ? tr('Thu gọn') : tr('Hiện')}</button>}

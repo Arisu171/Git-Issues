@@ -260,7 +260,7 @@ export function IncidentList({ onlyMine = false }: { onlyMine?: boolean }) {
                     <tr key={incident.id}>
                       <td>
                         <Link href={`/projects/${project}/incidents/${incident.id}`}>{incident.title}</Link>
-                        <div className="muted">Người ghi nhận: {incident.reporter.displayName}</div>
+                        <div className="muted">{tr('Người ghi nhận: {v0}', { v0: incident.reporter.displayName })}</div>
                       </td>
                       <td>
                         <StatusBadge status={incident.status} />

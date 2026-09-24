@@ -249,7 +249,7 @@ export function RolesPanel() {
                     id="r-name"
                     required
                     maxLength={100}
-                    placeholder="vd: mitigator"
+                    placeholder={tr('vd: mitigator')}
                     value={roleName}
                     onChange={(e) => setRoleName(e.target.value)}
                   />
@@ -312,7 +312,7 @@ export function RolesPanel() {
                     id="p-code"
                     required
                     pattern="^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$"
-                    placeholder="vd: incident.export"
+                    placeholder={tr('vd: incident.export')}
                     value={permissionCode}
                     onChange={(e) => setPermissionCode(e.target.value)}
                   />
@@ -334,7 +334,7 @@ export function RolesPanel() {
           )}
 
           <div className="card">
-            <h5 style={{ margin: "0 0 var(--space-3)" }}>Danh mục permission ({permissions.length})</h5>
+            <h5 style={{ margin: "0 0 var(--space-3)" }}>{tr('Danh mục permission ({v0})', { v0: permissions.length })}</h5>
             {permissions.length === 0 ? (
               <div className="empty">{tr('Không có quyền đọc danh mục.')}</div>
             ) : (

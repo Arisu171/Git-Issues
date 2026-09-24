@@ -196,7 +196,7 @@ function BoardView() {
               <form onSubmit={(e) => { e.preventDefault(); const t = addTo.text.trim(); if (!t) return; const body = /^(\w[\w-]*)?#\d+$/.test(t) ? { ticket: t, columnId } : { draftTitle: t, columnId }; tickets.addBoardItem(id, body).then(() => { setAddTo(null); void load(); }).catch(setError); }}>
                 <input autoFocus placeholder={tr('#123, support#7 hoặc tiêu đề draft')} value={addTo.text} onChange={(e) => setAddTo({ columnId, text: e.target.value })} onBlur={() => !addTo.text && setAddTo(null)} />
               </form>
-            ) : <button type="button" className="btn btn-secondary btn-block" style={{ marginTop: 0, color: 'var(--color-accent)' }} onClick={() => setAddTo({ columnId, text: '' })}>+ Add item</button>
+            ) : <button type="button" className="btn btn-secondary btn-block" style={{ marginTop: 0, color: 'var(--color-accent)' }} onClick={() => setAddTo({ columnId, text: '' })}>{tr('+ Thêm thẻ')}</button>
           )}
         </div>
       </div>

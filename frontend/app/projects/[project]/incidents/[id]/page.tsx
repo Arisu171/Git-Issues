@@ -428,7 +428,7 @@ function IncidentDetail({ id }: { id: string }) {
               <dd>
                 {formatTime(incident.resolvedAt)}
                 {incident.resolver && (
-                  <span className="muted"> · bởi {incident.resolver.displayName}</span>
+                  <span className="muted">{tr(' · bởi {v0}', { v0: incident.resolver.displayName })}</span>
                 )}
               </dd>
               <dt>{tr('Thời gian điều tra')}</dt>
@@ -441,7 +441,7 @@ function IncidentDetail({ id }: { id: string }) {
                   <>
                     <SlaBadge sla={incident.sla} />{' '}
                     <span className="muted">
-                      đã {incident.sla.elapsedHours}h / ngưỡng {incident.sla.thresholdHours}h
+                      {tr('đã {v0}h / ngưỡng {v1}h', { v0: incident.sla.elapsedHours, v1: incident.sla.thresholdHours })}
                     </span>
                   </>
                 ) : (
@@ -455,8 +455,7 @@ function IncidentDetail({ id }: { id: string }) {
           <section className="incident-block">
             <h5>{tr('Lịch sử trạng thái')}</h5>
             <p className="card-hint">
-              Mỗi lần chuyển trạng thái thành công sinh đúng một dòng, ghi trong cùng transaction với
-              việc đổi trạng thái (BR-BIZ-06). Bảng này chỉ ghi thêm, không sửa và không xóa được.
+              {tr('Mỗi lần chuyển trạng thái thành công sinh đúng một dòng, ghi trong cùng transaction với việc đổi trạng thái (BR-BIZ-06). Bảng này chỉ ghi thêm, không sửa và không xóa được.')}
             </p>
             {history.length === 0 ? (
               <div className="empty">{tr('Chưa có lần chuyển trạng thái nào.')}</div>
@@ -479,7 +478,7 @@ function IncidentDetail({ id }: { id: string }) {
           </section>
 
           <section className="incident-block">
-            <h5>Trao đổi ({comments.length})</h5>
+            <h5>{tr('Trao đổi ({v0})', { v0: comments.length })}</h5>
             <p className="card-hint">
               {tr('Kênh hội thoại giữa người gửi và đội xử lý (UC-BIZ-09). Trao đổi không làm thay đổi trạng thái sự cố — vòng đời vẫn đi qua nút chuyển trạng thái.')}
             </p>
@@ -575,7 +574,7 @@ function IncidentDetail({ id }: { id: string }) {
 
           {canReadFeedback && (
             <section className="incident-block">
-              <h5>Phản hồi khách hàng đã gắn ({feedbacks.length})</h5>
+              <h5>{tr('Phản hồi khách hàng đã gắn ({v0})', { v0: feedbacks.length })}</h5>
               {feedbacks.length === 0 ? (
                 <div className="empty">{tr('Chưa có phản hồi nào gắn vào sự cố này.')}</div>
               ) : (

@@ -15,6 +15,7 @@
 export const en: Record<string, string> = {
   // ---------------------------------------------------------------- mảnh câu và số đếm
   ' · {v0} kết quả': ' · {v0} results',
+  ' · bởi {v0}': ' · by {v0}',
   ' · đã tắt': ' · disabled',
   ' · hạn {v0}': ' · due {v0}',
   ' · mặc định': ' · default',
@@ -23,6 +24,7 @@ export const en: Record<string, string> = {
   '— chọn project —': '— select a project —',
   '— dùng để kiểm tra chữ ký': '— used to verify the signature',
   '· đã sửa': '· edited',
+  '· đã ẩn ({v0})': '· hidden ({v0})',
   '· sub-issue của': '· sub-issue of',
   '· ticket đóng chuyển sang': '· closed tickets move to',
   '· trùng với': '· duplicate of',
@@ -43,11 +45,13 @@ export const en: Record<string, string> = {
   '{v0} tháng trước': '{v0}mo ago',
   '{v0}{v1}': '{v0}{v1}',
   '{v0}h / ngưỡng {v1}h': '{v0}h / {v1}h threshold',
+  'đã {v0}h / ngưỡng {v1}h': '{v0}h elapsed / {v1}h threshold',
   '{v0} · cấp {v1} ({v2} quyền)': '{v0} · rank {v1} ({v2} permissions)',
   '#123, support#7 hoặc tiêu đề draft': '#123, support#7 or a draft title',
   '#N hoặc project#N': '#N or project#N',
   '← Quay lại đăng nhập': '← Back to sign in',
   '+ Cột': '+ Column',
+  '+ Thêm thẻ': '+ Add item',
   '<p><em>Không có gì để xem trước.</em></p>': '<p><em>Nothing to preview.</em></p>',
   '<p><em>Không tải được bản xem trước.</em></p>': '<p><em>Could not load the preview.</em></p>',
   '⚠ Ticket đã đóng dù vẫn đang bị ticket khác chặn.':
@@ -467,6 +471,7 @@ export const en: Record<string, string> = {
     'Signed in, taking you to the incident list…',
   'Đăng xuất': 'Sign out',
   'để hiển thị danh mục quyền.': 'to view the permission catalogue.',
+  'Danh mục permission ({v0})': 'Permission catalog ({v0})',
   'để xem màn hình này.': 'to open this screen.',
   'Điều hướng chính': 'Main navigation',
   'Đính kèm bằng kéo-thả, dán hoặc bấm để chọn tệp':
@@ -530,6 +535,8 @@ export const en: Record<string, string> = {
   'Không bao giờ nhận thông báo từ project này.': 'Never notify me about this project.',
   'Không cần liên hệ quản trị viên. Tài khoản mới là':
     'No need to contact an administrator. A new account is',
+  ': gửi được sự cố và phản hồi, theo dõi được tiến độ xử lý, và chỉ nhìn thấy đúng những gì mình đã gửi. Việc xử lý sự cố thuộc về đội hỗ trợ; muốn tham gia xử lý thì quản trị viên cấp thêm vai trò sau.':
+    ': can report incidents and feedback, follow progress, and only see what they submitted. Handling incidents stays with support; an administrator can add a staff role later.',
   'Không có': 'None',
   'Không có milestone': 'No milestone',
   'Không có mô tả.': 'No description.',
@@ -553,6 +560,8 @@ export const en: Record<string, string> = {
 
   'Leo thang sau (phút)': 'Escalate after (minutes)',
   'Lịch sử trạng thái': 'Status history',
+  'Mỗi lần chuyển trạng thái thành công sinh đúng một dòng, ghi trong cùng transaction với việc đổi trạng thái (BR-BIZ-06). Bảng này chỉ ghi thêm, không sửa và không xóa được.':
+    'Each successful status change writes exactly one row in the same transaction as the status update (BR-BIZ-06). This table is append-only: no edits, no deletes.',
   'Liên hệ': 'Contact',
   'Liên hệ quản trị viên để được gán vai trò phù hợp. Bạn đăng nhập được nhưng chưa xem hay thao tác được dữ liệu nào.':
     'Ask an administrator to assign you a role. You can sign in, but you cannot see or change any data yet.',
@@ -586,6 +595,8 @@ export const en: Record<string, string> = {
   'mở': 'opened',
   'Mở': 'Open',
   'Mở khoá hội thoại': 'Unlock conversation',
+  'Hội thoại đã bị khoá{v0}. Chỉ nhân viên có quyền Write mới bình luận được.':
+    'Conversation is locked{v0}. Only staff with Write can comment.',
   'Mặc định': 'Built-in',
   'Mở lại': 'Reopen',
   'Mở lại board': 'Reopen board',
@@ -598,6 +609,7 @@ export const en: Record<string, string> = {
 
   'Nghiêm trọng': 'Critical',
   'Người ghi nhận': 'Reporter',
+  'Người ghi nhận: {v0}': 'Reported by: {v0}',
   'Người xử lý': 'Assignee',
   'Ngưỡng {v0} giờ': '{v0}h threshold',
   'Nhận thông báo cho mọi ticket mới trong project.':
@@ -709,9 +721,14 @@ export const en: Record<string, string> = {
   'Trả lời khách hàng (tối đa 2000 ký tự)': 'Reply to the customer (up to 2000 characters)',
   'Trạng thái': 'Status',
   'Trao đổi': 'Thread',
+  'Trao đổi ({v0})': 'Thread ({v0})',
   'Trong hạn SLA': 'Within SLA',
   'Trung bình': 'Medium',
   'Trước': 'Previous',
+  'Trang {v0}/{v1} · {v2} bản ghi': 'Page {v0}/{v1} · {v2} records',
+  'Trang sau →': 'Next page →',
+  'Phân trang cursor · 25 mỗi trang': 'Cursor pagination · 25 per page',
+  'Sau': 'Next',
   'Tùy chọn': 'Optional',
   'Tự đăng ký đang tắt': 'Self-registration is off',
   'tự động': 'automatic',
@@ -848,6 +865,7 @@ export const en: Record<string, string> = {
   'Gửi lại': 'Redeliver',
   'Yêu cầu': 'Request',
   'Phản hồi': 'Response',
+  'Phản hồi khách hàng đã gắn ({v0})': 'Linked customer feedback ({v0})',
   'Tham gia và @mention': 'Participating & @mentions',
   'Mọi hoạt động': 'All activity',
   'Bỏ qua': 'Ignore',
@@ -893,4 +911,6 @@ export const en: Record<string, string> = {
   'Truy vấn DSL': 'DSL query',
   'Tick vào permission để gán hoặc gỡ ngay. Quyền trên API có hiệu lực từ request kế tiếp (ADR-004); menu giao diện tự đồng bộ khi điều hướng qua /api/auth/me.':
     'Tick a permission to grant or revoke it immediately. API enforcement takes effect from the next request (ADR-004); the UI menu resyncs when you hit /api/auth/me.',
+  'vd: mitigator': 'e.g. mitigator',
+  'vd: incident.export': 'e.g. incident.export',
 };
