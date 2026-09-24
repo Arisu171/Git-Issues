@@ -235,6 +235,8 @@ export const en: Record<string, string> = {
   'Bắt buộc theo mẫu': 'Required by the template',
   'Bắt đầu khắc phục': 'Start mitigating',
   'Bấm để bỏ điều kiện này': 'Click to drop this filter',
+  'Bấm để kích hoạt lại': 'Click to reactivate',
+  'Bấm để vô hiệu hóa': 'Click to deactivate',
   'Bạn cần đăng nhập để xem màn hình này.':
     'You need to sign in to view this screen.',
   'Bỏ đính kèm sự cố':
