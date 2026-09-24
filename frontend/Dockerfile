@@ -4,6 +4,20 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# ---------- dev (bind-mount source qua docker-compose.dev.yml) ----------
+FROM node:22-alpine AS dev
+WORKDIR /app
+RUN apk add --no-cache curl
+COPY package.json package-lock.json ./
+RUN npm ci
+ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL \
+    NEXT_TELEMETRY_DISABLED=1 \
+    HOSTNAME=0.0.0.0 \
+    PORT=3000
+EXPOSE 3000
+CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3000"]
+
 # ---------- build ----------
 FROM node:22-alpine AS build
 WORKDIR /app
