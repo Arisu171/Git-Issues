@@ -235,6 +235,8 @@ export const en: Record<string, string> = {
   'Bắt buộc theo mẫu': 'Required by the template',
   'Bắt đầu khắc phục': 'Start mitigating',
   'Bấm để bỏ điều kiện này': 'Click to drop this filter',
+  'Bấm để kích hoạt lại': 'Click to reactivate',
+  'Bấm để vô hiệu hóa': 'Click to deactivate',
   'Bạn cần đăng nhập để xem màn hình này.':
     'You need to sign in to view this screen.',
   'Bỏ đính kèm sự cố':
@@ -544,7 +546,6 @@ export const en: Record<string, string> = {
   'Không tải được tệp ({v0}).': 'Upload failed ({v0}).',
   'Không tìm thấy sự cố.': 'Incident not found.',
   'không tự chuyển': 'do not move',
-  'Kích hoạt': 'Activate',
   ' · hết giờ sau 10 giây · thử lại sau 1m / 5m / 30m / 2h / 6h, rồi chuyển sang hàng đợi lỗi.':
     ' · times out after 10 seconds · retries after 1m / 5m / 30m / 2h / 6h, then moves to the dead-letter queue.',
   'Ký bằng': 'Signed with',
@@ -727,7 +728,6 @@ export const en: Record<string, string> = {
     'A role cannot be deleted while accounts still hold it. Remove it from those accounts first.',
   'Việc của tôi': 'My work',
   'Viết trao đổi (tối đa 2000 ký tự)': 'Write a message (up to 2000 characters)',
-  'Vô hiệu hóa': 'Deactivate',
   'vừa xong': 'just now',
 
   'Webhook đã tạo. Secret chỉ hiện một lần:': 'Webhook created. The secret is shown only once:',
