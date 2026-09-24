@@ -2,4 +2,5 @@
 #
 #   - Toàn bộ hệ thống : docker compose up --build          (ở thư mục gốc)
 #   - Chỉ database     : docker compose -f backend/docker-compose.yml up -d
+#   - Web hot-reload   : docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build web
 #   - Web ở chế độ dev : npm run dev

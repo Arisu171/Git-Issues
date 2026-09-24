@@ -18,9 +18,9 @@ function Settings() {
   const [tab, setTab] = useState<'general' | 'members' | 'templates' | 'webhooks' | 'notifications'>('general');
   return (
     <>
-      <PageHead kicker={project} title="Project settings" />
+      <PageHead kicker={project} title={tr('Cài đặt project')} />
       <div className="settings-nav">
-        {(['general', 'members', 'templates', 'webhooks', 'notifications'] as const).map((t) => <button key={t} type="button" className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>{{ general: 'General', members: tr('Thành viên'), templates: 'Issue templates', webhooks: 'Webhooks', notifications: tr('Thông báo') }[t]}</button>)}
+        {(['general', 'members', 'templates', 'webhooks', 'notifications'] as const).map((t) => <button key={t} type="button" className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>{{ general: tr('Chung'), members: tr('Thành viên'), templates: tr('Mẫu Issue'), webhooks: tr('Webhook'), notifications: tr('Thông báo') }[t]}</button>)}
       </div>
       {tab === 'general' && <General slug={project} />}
       {tab === 'members' && <Members slug={project} />}
@@ -56,15 +56,15 @@ function General({ slug }: { slug: string }) {
       {/* Bản mẫu chia hai cột: chính sách issue bên trái, contact link bên phải. */}
       <div className="settings-grid">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-          <h5 style={{ margin: 0 }}>Issue policy</h5>
-          {flag('blankIssuesEnabled', 'Allow blank issues', tr('Tắt thì người gửi bắt buộc chọn một mẫu, không gửi được ticket trống.'))}
+          <h5 style={{ margin: 0 }}>{tr('Chính sách issue')}</h5>
+          {flag('blankIssuesEnabled', tr('Cho phép issue trống'), tr('Tắt thì người gửi bắt buộc chọn một mẫu, không gửi được ticket trống.'))}
           {flag('strictClosePolicy', tr('Strict close policy — chặn đóng khi còn sub-issue mở'), tr('Mặc định tắt: chỉ hiện cảnh báo. Bật thì không đóng được ticket khi còn việc con chưa xong.'))}
           {flag('autoReopenOnCustomerComment', tr('Tự mở lại khi khách hàng bình luận'), tr('Mặc định tắt: ticket đã đóng vẫn đóng, kể cả khi khách hàng bình luận thêm.'))}
           {flag('customersSeeOnlyOwn', tr('Khách hàng chỉ thấy ticket của mình'), tr('Bật thì mỗi khách hàng chỉ thấy ticket do chính mình gửi.'))}
-          <div className="field" style={{ marginTop: 'var(--space-2)' }}><label htmlFor="st-slug">Slug</label><input className="input" id="st-slug" defaultValue={p.slug} disabled /></div>
-          <div className="field"><label htmlFor="st-name">Display name</label><input className="input" id="st-name" defaultValue={p.name} disabled={!canManage} onBlur={(e) => e.target.value !== p.name && save({ name: e.target.value })} /></div>
+          <div className="field" style={{ marginTop: 'var(--space-2)' }}><label htmlFor="st-slug">{tr('Slug')}</label><input className="input" id="st-slug" defaultValue={p.slug} disabled /></div>
+          <div className="field"><label htmlFor="st-name">{tr('Tên hiển thị')}</label><input className="input" id="st-name" defaultValue={p.name} disabled={!canManage} onBlur={(e) => e.target.value !== p.name && save({ name: e.target.value })} /></div>
           <div className="field"><label htmlFor="st-desc">{tr('Mô tả')}</label><input className="input" id="st-desc" defaultValue={p.description ?? ''} disabled={!canManage} onBlur={(e) => e.target.value !== (p.description ?? '') && save({ description: e.target.value })} /></div>
-          <div className="muted" style={{ fontSize: 12 }}>{p.openTickets} mở · {p.closedTickets} đóng · tạo {formatDate(p.createdAt)}</div>
+          <div className="muted" style={{ fontSize: 12 }}>{tr('{v0} mở · {v1} đóng · tạo {v2}', { v0: p.openTickets, v1: p.closedTickets, v2: formatDate(p.createdAt) })}</div>
         </div>
 
         <ContactLinks
@@ -108,7 +108,7 @@ function ContactLinks({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-      <h5 style={{ margin: 0 }}>Contact links</h5>
+      <h5 style={{ margin: 0 }}>{tr('Liên kết liên hệ')}</h5>
       <div style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>
         {tr('Hiện ở màn hình chọn template thay cho việc tạo ticket.')}
       </div>
@@ -439,7 +439,7 @@ function Webhooks({ slug }: { slug: string }) {
       {error ? <ErrorBox error={error} /> : null}
       {created?.secret && <div className="alert success">{tr('Webhook đã tạo. Secret chỉ hiện một lần:')} <code>{created.secret}</code> {tr('— dùng để kiểm tra chữ ký')} <code>X-Hub-Signature-256</code>.</div>}
       <div className="card">
-        <div className="field"><label>Payload URL</label><input value={form.targetUrl} onChange={(e) => setForm({ ...form, targetUrl: e.target.value })} placeholder="https://example.com/hooks" /></div>
+        <div className="field"><label>{tr('URL payload')}</label><input value={form.targetUrl} onChange={(e) => setForm({ ...form, targetUrl: e.target.value })} placeholder="https://example.com/hooks" /></div>
         <div className="field"><label>{tr('Secret (tùy chọn, để trống = tự sinh)')}</label><input value={form.secret} onChange={(e) => setForm({ ...form, secret: e.target.value })} /></div>
         <div className="field"><label>{tr('Sự kiện')}</label>
           <div className="chips">{WEBHOOK_EVENTS.map((ev) => (
@@ -450,25 +450,25 @@ function Webhooks({ slug }: { slug: string }) {
             </label>
           ))}</div>
         </div>
-        <button type="button" className="primary" disabled={!form.targetUrl} onClick={create}>Add webhook</button>
+        <button type="button" className="primary" disabled={!form.targetUrl} onClick={create}>{tr('Thêm webhook')}</button>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap', marginTop: 'var(--space-4)' }}>
-        <h5 style={{ margin: 0 }}>Webhooks</h5>
-        <span className="muted" style={{ fontSize: 12 }}>{list.length} webhook</span>
+        <h5 style={{ margin: 0 }}>{tr('Webhook')}</h5>
+        <span className="muted" style={{ fontSize: 12 }}>{tr('{v0} webhook', { v0: list.length })}</span>
       </div>
       <div className="table-wrap">
         <table className="table">
-          <thead><tr><th>Target URL</th><th>Events</th><th>{tr('Trạng thái')}</th><th>{tr('Lỗi liên tiếp')}</th><th>{tr('Hành động')}</th></tr></thead>
+          <thead><tr><th>{tr('URL đích')}</th><th>{tr('Sự kiện')}</th><th>{tr('Trạng thái')}</th><th>{tr('Lỗi liên tiếp')}</th><th>{tr('Hành động')}</th></tr></thead>
           <tbody>
             {list.map((w) => (
               <tr key={w.id}>
                 <td><code>{w.targetUrl}</code></td>
                 <td><span className="chips">{w.events.map((ev) => <span key={ev} className="chip">{ev}</span>)}</span></td>
-                <td style={w.isActive ? undefined : { color: 'var(--color-accent-700)' }}>{w.isActive ? 'active' : tr('tắt')}</td>
+                <td style={w.isActive ? undefined : { color: 'var(--color-accent-700)' }}>{w.isActive ? tr('đang hoạt động') : tr('tắt')}</td>
                 <td>{w.consecutiveFailures}</td>
                 <td style={{ whiteSpace: 'nowrap' }}>
-                  <span className="cell-link" onClick={() => tickets.ping(slug, w.id).then(() => showDeliveries(w.id)).catch(setError)}>Ping</span>{' · '}
-                  <span className="cell-link" onClick={() => showDeliveries(w.id)}>Deliveries</span>{' · '}
+                  <span className="cell-link" onClick={() => tickets.ping(slug, w.id).then(() => showDeliveries(w.id)).catch(setError)}>{tr('Ping')}</span>{' · '}
+                  <span className="cell-link" onClick={() => showDeliveries(w.id)}>{tr('Lần gửi')}</span>{' · '}
                   <span className="cell-link" onClick={() => tickets.updateWebhook(slug, w.id, { targetUrl: w.targetUrl, events: w.events, isActive: !w.isActive }).then(load).catch(setError)}>{w.isActive ? tr('Tắt') : tr('Bật')}</span>{' · '}
                   <span className="cell-link" onClick={() => { if (confirm(tr('Xóa webhook?'))) tickets.deleteWebhook(slug, w.id).then(load).catch(setError); }}>{tr('Xóa')}</span>
                 </td>
@@ -482,20 +482,20 @@ function Webhooks({ slug }: { slug: string }) {
       </div>
       {deliveries && (
         <div className="gh-table" style={{ marginTop: 16 }}>
-          <div className="gh-table-head"><span>Recent deliveries</span><button type="button" className="ghost small" onClick={() => setDeliveries(null)}>{tr('Đóng')}</button></div>
+          <div className="gh-table-head"><span>{tr('Lần gửi gần đây')}</span><button type="button" className="ghost small" onClick={() => setDeliveries(null)}>{tr('Đóng')}</button></div>
           {deliveries.items.length === 0 && <div className="empty">{tr('Chưa có delivery.')}</div>}
           {deliveries.items.map((d) => (
             <details key={d.id} className="delivery">
               <summary>
                 <span className={d.httpStatus && d.httpStatus < 300 ? 'status-ok' : 'status-bad'}>{d.httpStatus ?? '—'}</span>
                 <code>{d.event}.{d.action}</code>
-                <span className="muted">{formatDate(d.createdAt)} · lần {d.attempt}{d.isRedelivery ? ' (redelivery)' : ''}{d.durationMs !== null ? ` · ${d.durationMs}ms` : ''}</span>
+                <span className="muted">{formatDate(d.createdAt)} · {tr('lần {v0}', { v0: d.attempt })}{d.isRedelivery ? tr(' (gửi lại)') : ''}{d.durationMs !== null ? ` · ${d.durationMs}ms` : ''}</span>
                 {d.error && <span className="status-bad">{d.error}</span>}
                 <span style={{ flex: 1 }} />
-                <button type="button" className="btn btn-ghost" onClick={(e) => { e.preventDefault(); tickets.redeliver(slug, deliveries.id, d.id).then(() => showDeliveries(deliveries.id)).catch(setError); }}>Redeliver</button>
+                <button type="button" className="btn btn-ghost" onClick={(e) => { e.preventDefault(); tickets.redeliver(slug, deliveries.id, d.id).then(() => showDeliveries(deliveries.id)).catch(setError); }}>{tr('Gửi lại')}</button>
               </summary>
-              <strong>Request</strong><pre>{d.requestBody}</pre>
-              <strong>Response</strong><pre>{d.responseBody ?? tr('(trống)')}</pre>
+              <strong>{tr('Yêu cầu')}</strong><pre>{d.requestBody}</pre>
+              <strong>{tr('Phản hồi')}</strong><pre>{d.responseBody ?? tr('(trống)')}</pre>
             </details>
           ))}
         </div>
@@ -512,7 +512,7 @@ function Watch({ slug }: { slug: string }) {
     <div className="card">
       {error ? <ErrorBox error={error} /> : null}
       <h5 style={{ margin: '0 0 var(--space-3)' }}>{tr('Theo dõi project (Watch)')}</h5>
-      {([['PARTICIPATING', 'Participating & @mentions', tr('Chỉ nhận thông báo khi bạn tham gia hoặc được nhắc.')], ['ALL', 'All activity', tr('Nhận thông báo cho mọi ticket mới trong project.')], ['IGNORE', 'Ignore', tr('Không bao giờ nhận thông báo từ project này.')]] as const).map(([v, l, h]) => (
+      {([['PARTICIPATING', tr('Tham gia và @mention'), tr('Chỉ nhận thông báo khi bạn tham gia hoặc được nhắc.')], ['ALL', tr('Mọi hoạt động'), tr('Nhận thông báo cho mọi ticket mới trong project.')], ['IGNORE', tr('Bỏ qua'), tr('Không bao giờ nhận thông báo từ project này.')]] as const).map(([v, l, h]) => (
         <label key={v} className="radio" style={{ alignItems: 'flex-start', marginBottom: 8 }}>
           <input type="radio" checked={level === v} onChange={() => tickets.setProjectWatch(slug, v).then((r) => setLevel(r.level)).catch(setError)} />
           <span className="dot" style={{ marginTop: 2 }} />

@@ -1,0 +1,31 @@
+# Overlay khi sửa frontend: bind-mount source, `next dev`, không cần --build mỗi lần đổi file.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build web
+#
+# `web` production (standalone) giữ nguyên cho `docker compose up --build` — NFR-PORT-01.
+# Docker Desktop trên Windows không gửi inotify vào bind-mount, nên bật polling.
+
+services:
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080}
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080}
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+      HOSTNAME: 0.0.0.0
+    volumes:
+      - ./frontend:/app
+      - web-node-modules:/app/node_modules
+      - web-next:/app/.next
+    user: "0:0"
+    healthcheck:
+      start_period: 90s
+
+volumes:
+  web-node-modules:
+  web-next:

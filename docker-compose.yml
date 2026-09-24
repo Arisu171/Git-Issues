@@ -127,6 +127,7 @@ services:
       args:
         # Trình duyệt gọi API qua cổng đã publish của host, không qua tên service nội bộ.
         NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080}
+    # Sửa UI không rebuild: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build web
     container_name: it-web
     restart: unless-stopped
     depends_on:

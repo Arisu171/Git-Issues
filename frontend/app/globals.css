@@ -343,12 +343,16 @@
   --page-title-size: 32px;
 }
 
-html,
-body {
+html {
   height: 100%;
 }
-
+/*
+ * Body phải cao theo nội dung, không khóa đúng viewport. `height: 100%` trên body khiến
+ * `.gh-chrome` (sticky) chỉ bám trong một hộp cao 100vh — cuộn quá mức đó thì header và
+ * menubar bị kéo khỏi màn hình.
+ */
 body {
+  min-height: 100%;
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
@@ -533,6 +537,38 @@ button.small,
 }
 
 .btn-icon { width: var(--control-h); height: var(--control-h); padding: 0; }
+
+/* Nút chỉ icon: không khung, chính glyph là vùng bấm. */
+button.icon-plain {
+  width: 24px;
+  height: 24px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  color: var(--muted);
+  background: transparent;
+  border-radius: var(--radius-sm);
+}
+button.icon-plain:hover:not(:disabled) {
+  color: var(--color-text);
+  background: transparent;
+}
+button.icon-plain:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+button.icon-plain svg {
+  width: 16px;
+  height: 16px;
+}
+.icon-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--space-1);
+}
 .btn-block {
   width: 100%;
   margin-top: var(--space-2);
@@ -593,6 +629,7 @@ textarea.input {
  */
 td .btn.small,
 td button.small { min-height: var(--control-h); }
+td button.icon-plain { min-height: 0; }
 td > .btn,
 td > button,
 td > .custom-select,
@@ -855,12 +892,18 @@ tbody tr:hover,
 .dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
 
 /* --------------------------------------------------- 6. Vỏ ứng dụng -- */
-.gh-header {
-  border-bottom: 1px solid var(--color-divider);
-  background: var(--color-bg);
+/* Header và menubar dính cùng một khối. Tách sticky (header top:0, menubar top: <chiều
+   cao header>) thì phải đoán một con số — sai ngay khi header xuống dòng dưới 640px,
+   và sai theo hướng khác ở trang đăng nhập vốn không có menubar. */
+.gh-chrome {
   position: sticky;
   top: 0;
   z-index: 40;
+  background: var(--color-bg);
+}
+.gh-header {
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-bg);
 }
 .gh-header-inner {
   display: flex;
@@ -1093,6 +1136,7 @@ tbody tr:hover,
 .gh-subnav,
 .menubar {
   border-bottom: 1px solid var(--color-divider);
+  background: var(--color-bg);
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
@@ -2439,6 +2483,17 @@ details.delivery pre { max-height: 240px; overflow: auto; font-size: 12px; margi
 .badge.fb-Responded,
 .badge.sev-Medium,
 .badge.sla-ok { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+/* Cùng bậc tông với badge accent-100/800, đổi hue sang xanh lá đã dùng cho chấm hiện diện. */
+.badge.user-active {
+  background: color-mix(in srgb, #2da44e 16%, var(--color-bg));
+  color: #146c3a;
+}
+:root[data-theme='dark'] .badge.user-active {
+  color: #8ee0a8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .badge.user-active { color: #8ee0a8; }
+}
 
 .thread {
   display: flex;

@@ -159,15 +159,15 @@ function ProfileFields({ profile, onChanged, onError }: {
   if (!profile.isSelf) {
     return (
       <dl className="profile-facts">
-        <dt>Status</dt>
+        <dt>{tr('Trạng thái')}</dt>
         <dd><PresenceDot status={profile.status} withText /></dd>
-        <dt>Biography</dt>
+        <dt>{tr('Tiểu sử')}</dt>
         <dd>{profile.biography || <span className="muted">{tr('chưa có')}</span>}</dd>
-        <dt>Username</dt>
+        <dt>{tr('Tên đăng nhập')}</dt>
         <dd>@{profile.login}</dd>
-        <dt>Email</dt>
+        <dt>{tr('Email')}</dt>
         <dd>{profile.email ?? <span className="muted">{tr('không công khai')}</span>}</dd>
-        <dt>Phone</dt>
+        <dt>{tr('Điện thoại')}</dt>
         <dd>{profile.phone ?? <span className="muted">{tr('không công khai')}</span>}</dd>
       </dl>
     );
@@ -184,9 +184,9 @@ function ProfileFields({ profile, onChanged, onError }: {
       </div>
 
       <div className="field">
-        <label htmlFor="p-status">Status</label>
+        <label htmlFor="p-status">{tr('Trạng thái')}</label>
         <Select id="p-status" value={STATUS_TO_ENUM[profile.status] ?? 'Offline'}
-          ariaLabel="Status"
+          ariaLabel={tr('Trạng thái')}
           onChange={(v) => void save.run(() => api.updateProfile({ presenceStatus: v }), tr('Đã lưu hồ sơ.'))
             .then((next) => { if (next) onChanged(next); })}
           options={[
@@ -201,19 +201,19 @@ function ProfileFields({ profile, onChanged, onError }: {
       </div>
 
       <div className="field">
-        <label htmlFor="p-bio">Biography</label>
+        <label htmlFor="p-bio">{tr('Tiểu sử')}</label>
         <textarea id="p-bio" className="input" maxLength={1000} rows={3}
           value={biography} onChange={(e) => setBiography(e.target.value)} />
       </div>
 
       <div className="field">
-        <label htmlFor="p-login">Username</label>
+        <label htmlFor="p-login">{tr('Tên đăng nhập')}</label>
         <input id="p-login" className="input" value={profile.login} readOnly disabled />
         <span className="hint">{tr('Username hiện ở mọi nơi có @mention nên không ẩn được và không đổi ở đây.')}</span>
       </div>
 
       <div className="field">
-        <label htmlFor="p-email">Email</label>
+        <label htmlFor="p-email">{tr('Email')}</label>
         <input id="p-email" className="input" value={profile.email ?? ''} readOnly disabled />
         <label className="radio">
           <input type="checkbox" checked={profile.emailVisible ?? false}
@@ -224,7 +224,7 @@ function ProfileFields({ profile, onChanged, onError }: {
       </div>
 
       <div className="field">
-        <label htmlFor="p-phone">Phone</label>
+        <label htmlFor="p-phone">{tr('Điện thoại')}</label>
         <input id="p-phone" className="input" maxLength={32} inputMode="tel"
           value={phone} onChange={(e) => setPhone(e.target.value)} />
         <label className="radio">

@@ -15,10 +15,10 @@ function AdminTickets() {
   const [tab, setTab] = useState<'types' | 'sla' | 'projects'>('types');
   return (
     <>
-      <PageHead kicker="Administration" title="SLA & escalation" />
+      <PageHead kicker={tr('Quản trị')} title={tr('SLA và leo thang')} />
       <div className="settings-nav">
-        <button type="button" className={tab === 'types' ? 'active' : ''} onClick={() => setTab('types')}>Issue types</button>
-        <button type="button" className={tab === 'sla' ? 'active' : ''} onClick={() => setTab('sla')}>SLA policies</button>
+        <button type="button" className={tab === 'types' ? 'active' : ''} onClick={() => setTab('types')}>{tr('Loại issue')}</button>
+        <button type="button" className={tab === 'sla' ? 'active' : ''} onClick={() => setTab('sla')}>{tr('Chính sách SLA')}</button>
         <button type="button" className={tab === 'projects' ? 'active' : ''} onClick={() => setTab('projects')}>Projects</button>
       </div>
       {tab === 'types' && <Types />}
@@ -44,10 +44,10 @@ function Types() {
             <div className="field"><label>{tr('Tên')}</label><input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={50} /></div>
             <div className="field"><label>{tr('Màu')}</label><Select value={form.color} onChange={(color) => setForm({ ...form, color })} ariaLabel={tr('Màu')} options={COLORS.map((c) => ({ value: c, label: c }))} /></div>
             <div className="field" style={{ flex: 1 }}><label>{tr('Mô tả')}</label><input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></div>
-            <button type="button" className="primary" disabled={!form.name.trim()} onClick={() => tickets.createIssueType({ name: form.name, color: form.color, description: form.description || undefined }).then(() => { setForm({ name: '', color: 'gray', description: '' }); void load(); }).catch(setError)}>Create</button>
+            <button type="button" className="primary" disabled={!form.name.trim()} onClick={() => tickets.createIssueType({ name: form.name, color: form.color, description: form.description || undefined }).then(() => { setForm({ name: '', color: 'gray', description: '' }); void load(); }).catch(setError)}>{tr('Tạo')}</button>
           </div>
         )}
-        <div className="gh-table-head"><span>{list.length} issue types (tối đa 25)</span></div>
+        <div className="gh-table-head"><span>{tr('{v0} loại issue (tối đa 25)', { v0: list.length })}</span></div>
         {list.map((t) => (
           <div key={t.id} className="gh-table-row">
             <div style={{ width: 160 }}><TypeChip name={t.name} color={t.color} /></div>
@@ -120,7 +120,7 @@ function Sla() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-        <h5 style={{ margin: 'var(--space-4) 0 0' }}>At risk now</h5>
+        <h5 style={{ margin: 'var(--space-4) 0 0' }}>{tr('Đang rủi ro')}</h5>
         {open === null && <span className="muted" style={{ fontSize: 13 }}>{tr('Đang tải…')}</span>}
         {open !== null && atRisk.length === 0 && <span className="muted" style={{ fontSize: 13 }}>{tr('Không có ticket nào đang chờ phản hồi đầu.')}</span>}
         {atRisk.map((t) => {
@@ -140,10 +140,10 @@ function Sla() {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-        <h5 style={{ margin: 'var(--space-4) 0 0' }}>Policies</h5>
+        <h5 style={{ margin: 'var(--space-4) 0 0' }}>{tr('Chính sách')}</h5>
       </div>
       <div className="table-wrap"><table>
-        <thead><tr><th>Priority</th><th>{tr('Phản hồi đầu (phút)')}</th><th>{tr('Giải quyết (phút)')}</th><th>{tr('Leo thang sau (phút)')}</th><th>Active</th><th>{tr('Hành động')}</th></tr></thead>
+        <thead><tr><th>{tr('Ưu tiên')}</th><th>{tr('Phản hồi đầu (phút)')}</th><th>{tr('Giải quyết (phút)')}</th><th>{tr('Leo thang sau (phút)')}</th><th>{tr('Đang hoạt động')}</th><th>{tr('Hành động')}</th></tr></thead>
         <tbody>
           {rows.map((p) => {
             const cur = list.find((x) => x.priority === p);
@@ -185,17 +185,17 @@ function Projects() {
       <div className="gh-table">
         {can && (
           <div className="inline-form">
-            <div className="field"><label>Slug</label><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} placeholder="billing" /></div>
+            <div className="field"><label>{tr('Slug')}</label><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} placeholder="billing" /></div>
             <div className="field"><label>{tr('Tên')}</label><input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
             <div className="field" style={{ flex: 1 }}><label>{tr('Mô tả')}</label><input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></div>
-            <button type="button" className="primary" disabled={!form.slug.trim() || !form.name.trim()} onClick={() => tickets.createProject({ slug: form.slug, name: form.name, description: form.description || undefined }).then(() => { setForm({ slug: '', name: '', description: '' }); void load(); }).catch(setError)}>Create</button>
+            <button type="button" className="primary" disabled={!form.slug.trim() || !form.name.trim()} onClick={() => tickets.createProject({ slug: form.slug, name: form.name, description: form.description || undefined }).then(() => { setForm({ slug: '', name: '', description: '' }); void load(); }).catch(setError)}>{tr('Tạo')}</button>
           </div>
         )}
-        <div className="gh-table-head"><span>{list.length} project</span></div>
+        <div className="gh-table-head"><span>{tr('{v0} project', { v0: list.length })}</span></div>
         {list.map((p) => (
           <div key={p.id} className="gh-table-row">
-            <div className="grow"><a href={`/projects/${p.slug}/issues`}><strong>{p.name}</strong></a> <code>{p.slug}</code>{p.isArchived && <span className="pill-count" style={{ marginLeft: 6 }}>archived</span>}<div className="desc">{p.description} · {p.openTickets} mở · {p.closedTickets} đóng</div></div>
-            {can && <a href={`/projects/${p.slug}/settings`} className="btn btn-ghost">Settings</a>}
+            <div className="grow"><a href={`/projects/${p.slug}/issues`}><strong>{p.name}</strong></a> <code>{p.slug}</code>{p.isArchived && <span className="pill-count" style={{ marginLeft: 6 }}>{tr('đã lưu trữ')}</span>}<div className="desc">{p.description} · {tr('{v0} mở · {v1} đóng', { v0: p.openTickets, v1: p.closedTickets })}</div></div>
+            {can && <a href={`/projects/${p.slug}/settings`} className="btn btn-ghost">{tr('Cài đặt')}</a>}
           </div>
         ))}
       </div>

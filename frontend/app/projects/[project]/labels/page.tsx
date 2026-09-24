@@ -141,11 +141,11 @@ function Labels() {
     <>
       <PageHead
         kicker={project}
-        title="Labels & milestones"
+        title="Labels"
         actions={canWrite ? (
           <>
-            <button type="button" className="btn btn-secondary" onClick={startCreate}>New label</button>
-            {canWriteMilestone && <button type="button" className="btn btn-primary" onClick={startCreateMilestone}>New milestone</button>}
+            <button type="button" className="btn btn-secondary" onClick={startCreate}>{tr('Label mới')}</button>
+            {canWriteMilestone && <button type="button" className="btn btn-primary" onClick={startCreateMilestone}>{tr('Milestone mới')}</button>}
           </>
         ) : undefined}
       />
@@ -155,7 +155,7 @@ function Labels() {
       {/* Bản mẫu xếp hai cột: danh sách label bên trái, milestone bên phải. */}
       <div className="split-2">
         <div>
-          <h5 style={{ margin: '0 0 var(--space-2)' }}>{visibleLabels.length} labels</h5>
+          <h5 style={{ margin: '0 0 var(--space-2)' }}>{tr('{v0} label', { v0: visibleLabels.length })}</h5>
 
           {/* Hàng lọc cân với hàng Open/Closed của milestone bên phải, và trả lời câu hỏi hay gặp
               nhất về label: cái nào có sẵn từ đầu, cái nào do người trong project thêm vào. */}
@@ -180,7 +180,7 @@ function Labels() {
                   {l.isArchived && <span className="count">{tr('đã lưu trữ')}</span>}
                   {canWrite && (
                     <>
-                      <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEdit(l)}>Edit</button>
+                      <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEdit(l)}>{tr('Sửa')}</button>
                       <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => { if (confirm(tr('Xóa label "{v0}"? Label sẽ bị gỡ khỏi mọi ticket.', { v0: l.name }))) tickets.deleteLabel(project, l.name).then(load).catch(setError); }}>{tr('Xóa')}</button>
                     </>
                   )}
@@ -230,18 +230,18 @@ function Labels() {
                   <div className="head">
                     <Link href={`/projects/${project}/issues?q=${encodeURIComponent(`is:open milestone:"${m.title}"`)}`}><strong>{m.title}</strong></Link>
                     <span style={{ fontSize: 12, color: overdue ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)' }}>
-                      {m.dueOn ? tr('{v0}{v1}', { v0: overdue ? tr('quá hạn ') : 'due ', v1: m.dueOn }) : 'no due date'}
+                      {m.dueOn ? tr('{v0}{v1}', { v0: overdue ? tr('quá hạn ') : tr('hạn '), v1: m.dueOn }) : tr('không có hạn')}
                     </span>
                     {canWriteMilestone && (
                       <span style={{ marginLeft: 'auto', display: 'flex', gap: 'var(--space-1)' }}>
-                        <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEditMilestone(m)}>Edit</button>
+                        <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEditMilestone(m)}>{tr('Sửa')}</button>
                         <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => tickets.updateMilestone(project, m.number, { state: m.state === 'OPEN' ? 'closed' : 'open' }).then(loadMilestones).catch(setError)}>{m.state === 'OPEN' ? tr('Đóng') : tr('Mở lại')}</button>
                         <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => { if (confirm(tr('Xóa milestone? Ticket sẽ được gỡ khỏi milestone.'))) tickets.deleteMilestone(project, m.number).then(loadMilestones).catch(setError); }}>{tr('Xóa')}</button>
                       </span>
                     )}
                   </div>
                   <div className="progress"><span style={{ width: `${pct}%` }} /></div>
-                  <div className="stats">{pct}% complete · {m.closedCount} closed · {m.openCount} open{m.description ? ` · ${m.description}` : ''}</div>
+                  <div className="stats">{tr('{v0}% hoàn thành · {v1} đóng · {v2} mở', { v0: pct, v1: m.closedCount, v2: m.openCount })}{m.description ? ` · ${m.description}` : ''}</div>
                 </div>
               );
             })}
