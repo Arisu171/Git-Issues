@@ -194,8 +194,8 @@ export function UsersPanel() {
                     <th>Email</th>
                     <th>{tr('Tên hiển thị')}</th>
                     <th>Role</th>
-                    <th>{tr('Trạng thái')}</th>
                     <th>{tr('Tạo lúc')}</th>
+                    <th>{tr('Trạng thái')}</th>
                     <th>{tr('Hành động')}</th>
                   </tr>
                 </thead>
@@ -255,57 +255,56 @@ export function UsersPanel() {
                           )}
                         </div>
                       </td>
-                      <td>
-                        <span className={`badge ${user.isActive ? 'Resolved' : 'sev-Critical'}`}>
-                          {user.isActive ? tr('Đang hoạt động') : tr('Đã vô hiệu hóa')}
-                        </span>
-                      </td>
                       <td className="muted">{formatTime(user.createdAt)}</td>
+                      <td>
+                        <button
+                          type="button"
+                          className={`badge ${user.isActive ? 'Resolved' : 'sev-Critical'}`}
+                          style={{
+                            border: 'none',
+                            padding: '4px 10px',
+                            cursor: canUpdate && canManage(user) ? 'pointer' : 'default',
+                            opacity: canUpdate && canManage(user) ? 1 : 0.5,
+                          }}
+                          title={canUpdate && canManage(user)
+                            ? (user.isActive ? tr('Bấm để vô hiệu hóa') : tr('Bấm để kích hoạt lại'))
+                            : undefined}
+                          disabled={action.isProcessing || !(canUpdate && canManage(user))}
+                          onClick={canUpdate && canManage(user) ? () =>
+                            run(
+                              () => api.updateUser(user.id, { isActive: !user.isActive }),
+                              user.isActive
+                                ? tr('Đã vô hiệu hóa tài khoản.')
+                                : tr('Đã kích hoạt lại tài khoản.'),
+                            ) : undefined}
+                        >
+                          {user.isActive ? tr('Đang hoạt động') : tr('Đã vô hiệu hóa')}
+                        </button>
+                      </td>
                       {/* Cột hành động đứng cuối, đúng chỗ mắt tìm nút bấm trong một bảng.
                           Không kèm dòng giải thích vì sao không bấm được: hàng nào thao tác được
                           thì có nút, hàng nào không thì trống — bảng tự nói ra điều đó. */}
                       <td>
-                        {(canUpdate || canDelete) && canManage(user) && (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                            {canUpdate && (
-                              <button
-                                type="button"
-                                className="secondary"
-                                disabled={action.isProcessing}
-                                onClick={() =>
-                                  run(
-                                    () => api.updateUser(user.id, { isActive: !user.isActive }),
-                                    user.isActive
-                                      ? tr('Đã vô hiệu hóa tài khoản.')
-                                      : tr('Đã kích hoạt lại tài khoản.'),
-                                  )
-                                }
-                              >
-                                {user.isActive ? tr('Vô hiệu hóa') : tr('Kích hoạt')}
-                              </button>
-                            )}
-                            {canDelete && (
-                              <button
-                                type="button"
-                                className="danger"
-                                disabled={action.isProcessing}
-                                onClick={() => {
-                                  if (
-                                    confirm(
-                                      tr('Xóa tài khoản "{v0}"? Chỉ thành công khi chưa phát sinh dữ liệu nghiệp vụ.', { v0: user.email }),
-                                    )
-                                  ) {
-                                    void run(
-                                      () => api.deleteUser(user.id),
-                                      tr('Đã xóa tài khoản.'),
-                                    );
-                                  }
-                                }}
-                              >
-                                {tr('Xóa')}
-                              </button>
-                            )}
-                          </div>
+                        {canDelete && canManage(user) && (
+                          <button
+                            type="button"
+                            className="danger"
+                            disabled={action.isProcessing}
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  tr('Xóa tài khoản "{v0}"? Chỉ thành công khi chưa phát sinh dữ liệu nghiệp vụ.', { v0: user.email }),
+                                )
+                              ) {
+                                void run(
+                                  () => api.deleteUser(user.id),
+                                  tr('Đã xóa tài khoản.'),
+                                );
+                              }
+                            }}
+                          >
+                            {tr('Xóa')}
+                          </button>
                         )}
                       </td>
                     </tr>
