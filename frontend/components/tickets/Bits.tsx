@@ -75,7 +75,7 @@ export function Avatar({ user, size = '', link = true }: {
  * `withText` để hiện luôn.
  */
 export function UnassignedAvatar({ size = '', withText = false }: { size?: '' | 'sm' | 'lg'; withText?: boolean }) {
-  const label = 'UNASSIGNED';
+  const label = tr('Chưa giao');
   const chip = <span className={`gh-avatar none ${size}`} title={label} aria-label={label} role="img">UN</span>;
   if (!withText) return chip;
   return (
@@ -96,7 +96,7 @@ export function UnassignedAvatar({ size = '', withText = false }: { size?: '' | 
  * `no:label` trong ô tìm kiếm.
  */
 export function NoLabelChip() {
-  return <span className="gh-label none" title={tr('Ticket này chưa gắn nhãn nào')}>non-label</span>;
+  return <span className="gh-label none" title={tr('Ticket này chưa gắn nhãn nào')}>{tr('không nhãn')}</span>;
 }
 
 /**
@@ -128,7 +128,7 @@ export function StateBadge({ ticket }: { ticket: Pick<Ticket, 'state' | 'stateRe
   return (
     <span className={`state-badge ${open ? 'open' : notPlanned ? 'not-planned' : 'closed'}`}>
       {open ? Icons.issueOpened : notPlanned ? Icons.skip : Icons.issueClosed}
-      {open ? 'Open' : notPlanned ? (ticket.stateReason === 'DUPLICATE' ? 'Closed as duplicate' : 'Closed as not planned') : 'Closed'}
+      {open ? 'Open' : notPlanned ? (ticket.stateReason === 'DUPLICATE' ? tr('Đóng vì trùng') : tr('Đóng vì không làm')) : 'Closed'}
     </span>
   );
 }
@@ -201,11 +201,11 @@ export function IssueRow({ t }: { t: Ticket }) {
         <div className="left">
           <StateIcon state={t.state} reason={t.stateReason} />
           <span className="meta">
-            #{t.number} {t.state === 'OPEN' ? tr('mở') : tr('đóng')} {timeAgo(t.state === 'OPEN' ? t.createdAt : t.closedAt ?? t.updatedAt)} bởi <strong>{t.author.login}</strong>
-            {t.milestone && <> · Milestone {t.milestone.title}</>}
+            #{t.number} {t.state === 'OPEN' ? tr('mở') : tr('đóng')} {timeAgo(t.state === 'OPEN' ? t.createdAt : t.closedAt ?? t.updatedAt)} {tr('bởi')} <strong>{t.author.login}</strong>
+            {t.milestone && <> · {tr('Cột mốc')} {t.milestone.title}</>}
             {t.type && <> · {t.type.name}</>}
-            {sub.total > 0 && <> · {sub.total} sub-issue ({sub.completed}/{sub.total})</>}
-            {t.pinned && <> · ghim</>}
+            {sub.total > 0 && <> · {tr('{v0} sub-issue ({v1}/{v2})', { v0: sub.total, v1: sub.completed, v2: sub.total })}</>}
+            {t.pinned && <> {tr(' · ghim')}</>}
           </span>
         </div>
         <div className="right">
@@ -219,7 +219,7 @@ export function IssueRow({ t }: { t: Ticket }) {
               </span>
             )}
           <span className="stat" title={tr('{v0} bình luận', { v0: t.comments })}>{Icons.comment} {t.comments}</span>
-          <span className="stat" title={`${reactions} reaction`}>{Icons.smile} {reactions}</span>
+          <span className="stat" title={tr('{v0} reaction', { v0: reactions })}>{Icons.smile} {reactions}</span>
         </div>
       </div>
     </article>

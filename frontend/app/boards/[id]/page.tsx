@@ -108,7 +108,7 @@ function BoardView() {
           </>
         ) : (
           <>
-            <span className="num">Draft item</span>
+            <span className="num">{tr('Mục nháp')}</span>
             <span className="title">{item.draftTitle}</span>
           </>
         )}
@@ -173,7 +173,7 @@ function BoardView() {
           ) : (
             <span className="grow">{name} <span className="pill-count">{sorted.length}</span></span>
           )}
-          {columnId && board.automation.item_closed_to_column_id === columnId && <span className="muted" title={tr('Ticket đóng sẽ tự chuyển vào cột này')} style={{ fontSize: 11 }}>auto: closed</span>}
+          {columnId && board.automation.item_closed_to_column_id === columnId && <span className="muted" title={tr('Ticket đóng sẽ tự chuyển vào cột này')} style={{ fontSize: 11 }}>{tr('tự động: đóng')}</span>}
           {canWrite && columnId && editCol?.id !== columnId && (
             <>
               <button type="button" className="btn btn-ghost col-act" title={tr('Đổi tên cột')}
@@ -225,7 +225,7 @@ function BoardView() {
       {/* Dòng automation của bản mẫu: kẻ trên, chữ nhỏ, truy vấn đặt trong <code>. */}
       <div style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)', borderTop: '1px solid var(--color-divider)', paddingTop: 'var(--space-2)', display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap' }}>
         {board.description && <span>{board.description} ·</span>}
-        <span>Auto-add</span>
+        <span>{tr('Tự thêm')}</span>
         {canWrite ? (
           <input className="input" style={{ width: 260, minHeight: 'var(--control-h-sm)', fontFamily: 'var(--font-mono)', fontSize: 12 }}
             placeholder="is:open label:incident" value={autoQuery} onChange={(e) => setAutoQuery(e.target.value)}

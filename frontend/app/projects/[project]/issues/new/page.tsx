@@ -107,7 +107,7 @@ function NewIssue() {
    */
   return (
     <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-      <PageHead kicker={project} title="New issue" hint={parent ? tr('Sub-issue của #{v0}', { v0: parent }) : undefined} />
+      <PageHead kicker={project} title={tr('Issue mới')} hint={parent ? tr('Sub-issue của #{v0}', { v0: parent }) : undefined} />
 
       <div className="tpl-list" style={{ borderTop: '1px solid var(--color-divider)', paddingTop: 'var(--space-3)' }}>
         {templates.map((t) => {
@@ -115,7 +115,7 @@ function NewIssue() {
           return (
             <button type="button" key={t.id} className={`tpl-row${on ? ' selected' : ''}`} aria-pressed={on}
               onClick={() => { setTemplate(t); setAnswers({}); }}>
-              <div className="card-kicker">{on ? 'Selected' : 'Template'}</div>
+              <div className="card-kicker">{on ? tr('Đã chọn') : tr('Mẫu')}</div>
               <strong>{t.name}</strong>
               <p className="desc">{t.description}</p>
             </button>
@@ -124,8 +124,8 @@ function NewIssue() {
         {(info?.blankIssuesEnabled || canTriage) && (
           <button type="button" className={`tpl-row blank${template === 'blank' ? ' selected' : ''}`} aria-pressed={template === 'blank'}
             onClick={() => { setTemplate('blank'); setAnswers({}); }}>
-            <div className="card-kicker">{template === 'blank' ? 'Selected' : 'Blank'}</div>
-            <strong>Open a blank issue</strong>
+            <div className="card-kicker">{template === 'blank' ? tr('Đã chọn') : tr('Trống')}</div>
+            <strong>{tr('Mở ticket trắng')}</strong>
             <p className="desc">{tr('Tạo ticket từ đầu, không theo mẫu nào.')}</p>
           </button>
         )}
@@ -199,15 +199,15 @@ function NewIssue() {
                 )}
               </div>
             )}
-            <button type="button" className="btn btn-secondary" onClick={() => router.push(`/projects/${project}/issues`)}>Cancel</button>
-            <SubmitButton action={create} processingLabel={tr('Đang tạo…')} className="btn btn-primary" disabled={adhocProblems.length > 0}>Submit new issue</SubmitButton>
+            <button type="button" className="btn btn-secondary" onClick={() => router.push(`/projects/${project}/issues`)}>{tr('Hủy')}</button>
+            <SubmitButton action={create} processingLabel={tr('Đang tạo…')} className="btn btn-primary" disabled={adhocProblems.length > 0}>{tr('Gửi issue mới')}</SubmitButton>
           </div>
         </div>
 
         <aside className="form-aside">
           {tpl && (tpl.defaults.labels?.length || tpl.defaults.type) ? (
             <div>
-              <div className="sb-title" style={{ marginBottom: 6 }}>From template</div>
+              <div className="sb-title" style={{ marginBottom: 6 }}>{tr('Từ template')}</div>
               <div style={{ display: 'flex', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
                 {tpl.defaults.labels?.map((l) => <span key={l} className="tag tag-accent">{l}</span>)}
                 {tpl.defaults.type && <span className="tag tag-outline">{tpl.defaults.type}</span>}
@@ -229,7 +229,7 @@ function NewIssue() {
           )}
           {contactLinks.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <div className="sb-title">Need help instead?</div>
+              <div className="sb-title">{tr('Cần hỗ trợ khác')}?</div>
               {contactLinks.map((c) => <a key={c.url} href={c.url} target="_blank" rel="noreferrer">{c.name} →</a>)}
             </div>
           )}

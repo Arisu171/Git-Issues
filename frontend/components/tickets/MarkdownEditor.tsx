@@ -64,12 +64,12 @@ export function MarkdownEditor({
   return (
     <div className="editor" onDrop={(e) => { if (e.dataTransfer.files.length) { e.preventDefault(); void uploadFiles(e.dataTransfer.files); } }} onDragOver={(e) => e.preventDefault()}>
       <div className="editor-tabs">
-        <button type="button" className={tab === 'write' ? 'active' : ''} onClick={() => setTab('write')}>Write</button>
-        <button type="button" className={tab === 'preview' ? 'active' : ''} onClick={showPreview}>Preview</button>
+        <button type="button" className={tab === 'write' ? 'active' : ''} onClick={() => setTab('write')}>{tr('Viết')}</button>
+        <button type="button" className={tab === 'preview' ? 'active' : ''} onClick={showPreview}>{tr('Xem trước')}</button>
         {/* Bản mẫu để dòng gợi ý cú pháp ở mép phải hàng tab. Ở đây nó kiêm luôn nút chọn tệp
             để giữ tính năng đính kèm (BR-EV-05) mà không thêm một hàng chân ngoài bản vẽ. */}
         <label className="hint" title={tr('Đính kèm bằng kéo-thả, dán hoặc bấm để chọn tệp')}>
-          {uploading ? tr('Đang tải tệp…') : 'Markdown · @mention · #ref'}
+          {uploading ? tr('Đang tải tệp…') : tr('Markdown · @mention · #ref')}
           <input type="file" multiple style={{ display: 'none' }} onChange={(e) => e.target.files && uploadFiles(e.target.files)} />
         </label>
       </div>

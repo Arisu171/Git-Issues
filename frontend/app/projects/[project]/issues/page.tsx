@@ -75,7 +75,7 @@ function IssuesList() {
         actions={<>
           <Link href={`/projects/${project}/labels`} className="btn btn-secondary">Labels</Link>
           <Link href={`/projects/${project}/labels`} className="btn btn-secondary">Milestones</Link>
-          {session.can('ticket.create') && <Link href={`/projects/${project}/issues/new`} className="btn btn-primary">New issue</Link>}
+          {session.can('ticket.create') && <Link href={`/projects/${project}/issues/new`} className="btn btn-primary">{tr('Issue mới')}</Link>}
         </>}
       />
 
@@ -86,22 +86,22 @@ function IssuesList() {
           onSubmit={go}
           prefix={<span className="filters-btn">DSL</span>}
           placeholder="is:open label:incident sort:updated-desc"
-          ariaLabel="Query DSL"
+          ariaLabel={tr('Truy vấn DSL')}
         />
-        <FilterMenu label="Label">
+        <FilterMenu label={tr('Nhãn')}>
           {labels.length === 0 && <div className="head">{tr('Chưa có label')}</div>}
           {labels.map((l) => <button key={l.id} type="button" className="item" onClick={() => addQualifier(/\s/.test(l.name) ? `label:"${l.name}"` : `label:${l.name}`)}>{l.name}</button>)}
         </FilterMenu>
-        <FilterMenu label="Milestone">
+        <FilterMenu label={tr('Cột mốc')}>
           <button type="button" className="item" onClick={() => addQualifier('no:milestone')}>{tr('Không có milestone')}</button>
           {milestones.map((m) => <button key={m.id} type="button" className="item" onClick={() => addQualifier(/\s/.test(m.title) ? `milestone:"${m.title}"` : `milestone:${m.title}`)}>{m.title}</button>)}
         </FilterMenu>
-        <FilterMenu label="Assignee">
+        <FilterMenu label={tr('Người được giao')}>
           <button type="button" className="item" onClick={() => addQualifier('assignee:@me')}>{tr('Giao cho tôi')}</button>
           <button type="button" className="item" onClick={() => addQualifier('no:assignee')}>{tr('Chưa giao')}</button>
           <button type="button" className="item" onClick={() => addQualifier('author:@me')}>{tr('Do tôi tạo')}</button>
         </FilterMenu>
-        <FilterMenu label="Sort">
+        <FilterMenu label={tr('Sắp xếp')}>
           {[['created-desc', tr('Mới nhất')], ['created-asc', tr('Cũ nhất')], ['updated-desc', tr('Cập nhật gần đây')], ['comments-desc', tr('Nhiều bình luận')], ['reactions-desc', tr('Nhiều reaction')]].map(([v, l]) => (
             <button key={v} type="button" className="item" onClick={() => go(q.replace(/\bsort:\S+/g, '').trim() + ` sort:${v}`)}>{l}</button>
           ))}

@@ -248,7 +248,7 @@ function ErrorMessage({ error }: { error: unknown }) {
         <div>{error.message}</div>
         {error.allowedNextStatus && (
           <div>
-            {tr('Bước hợp lệ tiếp theo:')} <strong>{STATUS_LABEL[error.allowedNextStatus as IncidentStatus]}</strong>
+            {tr('Bước hợp lệ tiếp theo:')} <strong>{tr(STATUS_LABEL[error.allowedNextStatus as IncidentStatus])}</strong>
           </div>
         )}
         {error.correlationId && (

@@ -128,7 +128,7 @@ export default function RegisterPage() {
 
         <form onSubmit={submit}>
           <div className="field">
-            <label htmlFor="email">Email<RequiredMark /></label>
+            <label htmlFor="email">{tr('Email')}<RequiredMark /></label>
             <input
               id="email"
               type="email"
@@ -140,7 +140,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="username">Username<RequiredMark /></label>
+            <label htmlFor="username">{tr('Tên đăng nhập')}<RequiredMark /></label>
             <input
               id="username"
               required
@@ -171,7 +171,7 @@ export default function RegisterPage() {
 
           <div className="field">
             <label htmlFor="password">
-              Mật khẩu {policy && tr('(tối thiểu {v0} ký tự)', { v0: policy.minPasswordLength })}
+              {tr('Mật khẩu')} {policy && tr('(tối thiểu {v0} ký tự)', { v0: policy.minPasswordLength })}
             <RequiredMark /></label>
             <PasswordInput
               id="password"

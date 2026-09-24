@@ -96,7 +96,7 @@ function AssigneesSection({ ticket, slug, canTriage, meLogin, onTicket, onError 
   // nhận" chỉ dẫn tới 422, nên đừng bày ra.
   const canSelfAssign = canTriage && meLogin && !assigned.has(meLogin);
   return (
-    <Section title="Assignees" open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
+    <Section title={tr('Người được giao')} open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
       {ticket.assignees.length === 0 && (
         <span className="none">
           <UnassignedAvatar size="sm" withText />
@@ -152,7 +152,7 @@ function TypeSection({ ticket, canTriage, onSave }: { ticket: Ticket; canTriage:
   const [types, setTypes] = useState<IssueType[]>([]);
   useEffect(() => { if (open) tickets.issueTypes().then(setTypes).catch(() => undefined); }, [open]);
   return (
-    <Section title="Type" open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
+    <Section title={tr('Loại')} open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
       {ticket.type ? <TypeChip name={ticket.type.name} color={ticket.type.color} /> : <span className="none">{tr('Chưa có')}</span>}
       {open && (
         <div className="sb-picker">
@@ -172,12 +172,12 @@ function MilestoneSection({ ticket, slug, canTriage, onSave }: { ticket: Ticket;
   const m = ticket.milestone;
   const pct = m && m.openCount + m.closedCount > 0 ? Math.round((m.closedCount * 100) / (m.openCount + m.closedCount)) : 0;
   return (
-    <Section title="Milestone" open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
+    <Section title={tr('Cột mốc')} open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
       {m ? (
         <>
           <div className="progress"><span style={{ width: `${pct}%` }} /></div>
           <Link href={`/projects/${slug}/milestones`}>{m.title}</Link>
-          <span className="muted">{pct}% hoàn thành{m.dueOn ? tr(' · hạn {v0}', { v0: m.dueOn }) : ''}</span>
+          <span className="muted">{tr('{v0}% hoàn thành', { v0: pct })}{m.dueOn ? tr(' · hạn {v0}', { v0: m.dueOn }) : ''}</span>
         </>
       ) : <span className="none">{tr('Chưa có')}</span>}
       {open && (
@@ -195,7 +195,7 @@ function PrioritySection({ ticket, canTriage, onSave }: { ticket: Ticket; canTri
   const [open, setOpen] = useState(false);
   const overdue = ticket.slaDueAt && !ticket.firstResponseAt && ticket.state === 'OPEN' && new Date(ticket.slaDueAt) < new Date();
   return (
-    <Section title="Priority / SLA" open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
+    <Section title={tr('Ưu tiên / SLA')} open={open} onDismiss={() => setOpen(false)} onGear={canTriage ? () => setOpen((v) => !v) : undefined}>
       {ticket.priority ? (
         <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap' }}>
           <span className={`tag ${ticket.priority === 'P0' ? 'tag-accent' : 'tag-neutral'}`} style={{ fontFamily: 'var(--font-heading)', fontWeight: 800 }}>{ticket.priority}</span>
@@ -244,19 +244,19 @@ function RelationshipsSection({ ticket, slug, canTriage, onError }: { ticket: Ti
 
   const s = ticket.subIssuesSummary;
   return (
-    <Section title="Relationships">
-      {ticket.parent && <div><span className="muted">Parent</span><RefLink t={ticket.parent} /></div>}
+    <Section title={tr('Quan hệ')}>
+      {ticket.parent && <div><span className="muted">{tr('Cha')}</span><RefLink t={ticket.parent} /></div>}
       <div>
-        <span className="muted">Sub-issues {s.total > 0 && <>· {s.completed}/{s.total} ({s.percentCompleted}%)</>}</span>
+        <span className="muted">{tr('Sub-issue')} {s.total > 0 && <>· {s.completed}/{s.total} ({s.percentCompleted}%)</>}</span>
         {s.total > 0 && <div className="progress" style={{ margin: '4px 0' }}><span style={{ width: `${s.percentCompleted}%` }} /></div>}
         {subs.map((x) => <div key={x.ticket.id} className="row-item"><RefLink t={x.ticket} />{canTriage && <button type="button" className="ghost small" onClick={() => tickets.removeSubIssue(slug, ticket.number, `#${x.ticket.number}`).then(load).catch(onError)}>×</button>}</div>)}
       </div>
-      {blockedBy.length > 0 && <div><span className="blocked-chip">⛔ Blocked by</span>{blockedBy.map((x) => <div key={x.id} className="row-item"><RefLink t={x} />{canTriage && <button type="button" className="ghost small" onClick={() => tickets.removeBlockedBy(slug, ticket.number, `${x.projectSlug}#${x.number}`).then(load).catch(onError)}>×</button>}</div>)}</div>}
-      {blocking.length > 0 && <div><span className="muted">Blocking</span>{blocking.map((x) => <RefLink key={x.id} t={x} />)}</div>}
+      {blockedBy.length > 0 && <div><span className="blocked-chip">⛔ {tr('Bị chặn bởi')}</span>{blockedBy.map((x) => <div key={x.id} className="row-item"><RefLink t={x} />{canTriage && <button type="button" className="ghost small" onClick={() => tickets.removeBlockedBy(slug, ticket.number, `${x.projectSlug}#${x.number}`).then(load).catch(onError)}>×</button>}</div>)}</div>}
+      {blocking.length > 0 && <div><span className="muted">{tr('Đang chặn')}</span>{blocking.map((x) => <RefLink key={x.id} t={x} />)}</div>}
       {canTriage && (
         <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => setMode(mode === 'sub' ? null : 'sub')}>+ Sub-issue</button>
-          <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => setMode(mode === 'blocked' ? null : 'blocked')}>+ Blocked by</button>
+          <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => setMode(mode === 'sub' ? null : 'sub')}>+ {tr('Sub-issue')}</button>
+          <button type="button" className="btn btn-secondary" style={{ fontSize: 12 }} onClick={() => setMode(mode === 'blocked' ? null : 'blocked')}>+ {tr('Bị chặn bởi')}</button>
           <Link href={`/projects/${slug}/issues/new?parent=${ticket.number}`} className="btn btn-ghost" style={{ fontSize: 12 }}>{tr('Tạo sub-issue mới')}</Link>
         </div>
       )}
@@ -279,8 +279,8 @@ function NotificationsSection({ ticket }: { ticket: Ticket }) {
     setState({ subscribed: s.subscribed, ignored: s.ignored });
   }
   return (
-    <Section title="Notifications">
-      <button type="button" className="btn btn-secondary btn-block" onClick={toggle}>{state?.subscribed ? 'Unsubscribe' : 'Subscribe'}</button>
+    <Section title={tr('Thông báo')}>
+      <button type="button" className="btn btn-secondary btn-block" onClick={toggle}>{state?.subscribed ? tr('Hủy theo dõi') : tr('Theo dõi')}</button>
       <span className="muted">{state?.subscribed ? tr('Bạn đang nhận thông báo vì bạn theo dõi ticket này.') : tr('Bạn chưa nhận thông báo từ ticket này.')}</span>
     </Section>
   );
@@ -298,7 +298,7 @@ function ActionsSection({ ticket, slug, canWrite, canDelete, onTicket, onError }
     <div className="sb-section sb-actions">
       {canWrite && (
         <>
-          <button type="button" className="btn btn-secondary btn-block" onClick={() => act(() => ticket.pinned ? tickets.pin(slug, ticket.number, false) : tickets.pin(slug, ticket.number, true))}>{ticket.pinned ? tr('Bỏ ghim ticket') : 'Ghim ticket'}</button>
+          <button type="button" className="btn btn-secondary btn-block" onClick={() => act(() => ticket.pinned ? tickets.pin(slug, ticket.number, false) : tickets.pin(slug, ticket.number, true))}>{ticket.pinned ? tr('Bỏ ghim ticket') : tr('Ghim ticket')}</button>
           <button type="button" onClick={() => {
             if (ticket.locked) return void act(() => tickets.unlock(slug, ticket.number));
             const reason = prompt(tr('Lý do khoá (off_topic / too_heated / resolved / spam) — để trống nếu không có:')) ?? '';

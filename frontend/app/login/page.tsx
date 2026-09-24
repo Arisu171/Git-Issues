@@ -56,7 +56,7 @@ function LoginForm() {
         <div className="kicker">{tr('Tài khoản')}</div>
         <h2>{tr('Đăng nhập')}</h2>
         <p className="card-hint">
-          {tr('Incident &amp; Feedback Tracker — dùng tài khoản nội bộ do quản trị viên cấp.')}
+          {tr('Incident & Feedback Tracker — dùng tài khoản nội bộ do quản trị viên cấp.')}
         </p>
 
         {expired && (

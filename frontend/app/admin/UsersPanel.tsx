@@ -108,7 +108,7 @@ export function UsersPanel() {
             <form onSubmit={createUser}>
               <div className="row">
                 <div className="field">
-                  <label htmlFor="u-email">Email<RequiredMark /></label>
+                  <label htmlFor="u-email">{tr('Email')}<RequiredMark /></label>
                   <input
                     id="u-email"
                     type="email"
@@ -191,9 +191,9 @@ export function UsersPanel() {
               <table>
                 <thead>
                   <tr>
-                    <th>Email</th>
+                    <th>{tr('Email')}</th>
                     <th>{tr('Tên hiển thị')}</th>
-                    <th>Role</th>
+                    <th>{tr('Vai trò')}</th>
                     <th>{tr('Tạo lúc')}</th>
                     <th>{tr('Trạng thái')}</th>
                     <th>{tr('Hành động')}</th>

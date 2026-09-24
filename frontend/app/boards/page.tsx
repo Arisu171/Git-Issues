@@ -26,13 +26,13 @@ function Boards() {
   return (
     <>
       <PageHead
-        kicker="Cross-project"
+        kicker={tr('Liên project')}
         title="Boards"
         hint={tr('Bảng Kanban: kéo-thả thẻ giữa cột, tự động chuyển cột khi đóng ticket.')}
         actions={canWrite ? (
           <form style={{ display: 'flex', gap: 'var(--space-2)' }} onSubmit={(e) => { e.preventDefault(); if (name.trim()) tickets.createBoard({ name }).then(() => { setName(''); void load(); }).catch(setError); }}>
             <input className="input" placeholder={tr('Tên board mới')} value={name} onChange={(e) => setName(e.target.value)} />
-            <button type="submit" className="btn btn-primary">New board</button>
+            <button type="submit" className="btn btn-primary">{tr('Board mới')}</button>
           </form>
         ) : undefined}
       />
@@ -51,7 +51,7 @@ function Boards() {
       <div className="issue-list">
         <div className="issue-list-head">
           <button type="button" className={`tab ${!showClosed ? 'active' : ''}`} onClick={() => setShowClosed(false)}>Open</button>
-          <button type="button" className={`tab ${showClosed ? 'active' : ''}`} onClick={() => setShowClosed(true)}>All</button>
+          <button type="button" className={`tab ${showClosed ? 'active' : ''}`} onClick={() => setShowClosed(true)}>{tr('Tất cả')}</button>
         </div>
         {visible.length === 0 && (
           <div className="empty">{Icons.project}<div>{q ? tr('Không có board nào khớp.') : tr('Chưa có board.')}</div></div>
@@ -68,12 +68,12 @@ function Boards() {
               <div className="left">
                 <span className="state-icon">{Icons.project}</span>
                 <span className="meta">
-                  {b.description}{b.description ? ' · ' : ''}{b.visibility.toLowerCase()} · tạo {timeAgo(b.createdAt)}{b.createdBy && tr(' bởi {v0}', { v0: b.createdBy.login })}
+                  {b.description}{b.description ? ' · ' : ''}{b.visibility.toLowerCase()} · {tr('tạo')} {timeAgo(b.createdAt)}{b.createdBy && tr(' bởi {v0}', { v0: b.createdBy.login })}
                 </span>
               </div>
               <div className="right">
-                <span className="stat">{b.columns.length} cột</span>
-                <span className="stat">{b.itemCount} thẻ</span>
+                <span className="stat">{tr('{v0} cột', { v0: b.columns.length })}</span>
+                <span className="stat">{tr('{v0} thẻ', { v0: b.itemCount })}</span>
               </div>
             </div>
           </article>

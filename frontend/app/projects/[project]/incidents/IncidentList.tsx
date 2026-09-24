@@ -146,7 +146,7 @@ export function IncidentList({ onlyMine = false }: { onlyMine?: boolean }) {
                 options={[
                   { value: 'Low', label: tr('Thấp') },
                   { value: 'Medium', label: tr('Trung bình') },
-                  { value: 'High', label: 'Cao' },
+                  { value: 'High', label: tr('Cao') },
                   { value: 'Critical', label: tr('Nghiêm trọng') },
                 ]}
               />
@@ -201,7 +201,7 @@ export function IncidentList({ onlyMine = false }: { onlyMine?: boolean }) {
                 { value: '', label: tr('Tất cả') },
                 { value: 'Low', label: tr('Thấp') },
                 { value: 'Medium', label: tr('Trung bình') },
-                { value: 'High', label: 'Cao' },
+                  { value: 'High', label: tr('Cao') },
                 { value: 'Critical', label: tr('Nghiêm trọng') },
               ]}
             />
@@ -219,7 +219,7 @@ export function IncidentList({ onlyMine = false }: { onlyMine?: boolean }) {
             />
           </div>
           <div className="field" style={{ flex: '0 0 auto' }}>
-            <label>Breached</label>
+            <label>{tr('Đã quá hạn')}</label>
             {/* Công tắc chứ không phải ô tick: đây là bộ lọc có hiệu lực ngay, không phải một
                 trường trong biểu mẫu chờ bấm Lưu. */}
             <div style={{ display: 'flex', alignItems: 'center', minHeight: 'var(--control-h)' }}>

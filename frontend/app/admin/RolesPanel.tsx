@@ -69,8 +69,7 @@ export function RolesPanel() {
           <div className="card">
             <h5 style={{ margin: "0 0 var(--space-3)" }}>{tr('Phân quyền cho vai trò')}</h5>
             <p className="card-hint">
-              Tick vào permission để gán hoặc gỡ ngay. Quyền trên API có hiệu lực từ request kế
-              tiếp (ADR-004); menu giao diện tự đồng bộ khi điều hướng qua <code>/api/auth/me</code>.
+              {tr('Tick vào permission để gán hoặc gỡ ngay. Quyền trên API có hiệu lực từ request kế tiếp (ADR-004); menu giao diện tự đồng bộ khi điều hướng qua /api/auth/me.')}
             </p>
 
             <div className="field">

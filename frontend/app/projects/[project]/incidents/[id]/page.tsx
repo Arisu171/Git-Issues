@@ -9,6 +9,7 @@ import {
   formatTime,
   session,
   STATUS_LABEL,
+  SEVERITY_LABEL,
   type Feedback,
   type Incident,
   type IncidentComment,
@@ -382,12 +383,8 @@ function IncidentDetail({ id }: { id: string }) {
                     id="edit-severity"
                     value={draft.severity}
                     onChange={(next) => setDraft({ ...draft, severity: next as IncidentSeverity })}
-                    options={[
-                      { value: 'Low', label: 'Low' },
-                      { value: 'Medium', label: 'Medium' },
-                      { value: 'High', label: 'High' },
-                      { value: 'Critical', label: 'Critical' },
-                    ]}
+                    options={(Object.keys(SEVERITY_LABEL) as IncidentSeverity[])
+                      .map((s) => ({ value: s, label: tr(SEVERITY_LABEL[s]) }))}
                   />
                 </div>
                 {/* Lý do chỉ hỏi khi sửa bài người khác: bắt tác giả giải trình mỗi lần sửa

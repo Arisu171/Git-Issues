@@ -254,7 +254,7 @@ function ProjectList() {
                     )}
                     {isAdmin && (
                       <td style={{ whiteSpace: 'nowrap' }}>
-                        <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEdit(row)}>Edit</button>
+                        <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} onClick={() => startEdit(row)}>{tr('Sửa')}</button>
                         <button type="button" className="btn btn-ghost" style={{ fontSize: 12 }} disabled={manage.isProcessing} onClick={() => removeProject(row)}>{tr('Xóa')}</button>
                       </td>
                     )}
