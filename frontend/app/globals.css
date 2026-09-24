@@ -855,12 +855,18 @@ tbody tr:hover,
 .dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
 
 /* --------------------------------------------------- 6. Vỏ ứng dụng -- */
-.gh-header {
-  border-bottom: 1px solid var(--color-divider);
-  background: var(--color-bg);
+/* Header và menubar dính cùng một khối. Tách sticky (header top:0, menubar top: <chiều
+   cao header>) thì phải đoán một con số — sai ngay khi header xuống dòng dưới 640px,
+   và sai theo hướng khác ở trang đăng nhập vốn không có menubar. */
+.gh-chrome {
   position: sticky;
   top: 0;
   z-index: 40;
+  background: var(--color-bg);
+}
+.gh-header {
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-bg);
 }
 .gh-header-inner {
   display: flex;
@@ -1093,6 +1099,7 @@ tbody tr:hover,
 .gh-subnav,
 .menubar {
   border-bottom: 1px solid var(--color-divider);
+  background: var(--color-bg);
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
