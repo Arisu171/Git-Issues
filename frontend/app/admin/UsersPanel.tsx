@@ -259,7 +259,7 @@ export function UsersPanel() {
                       <td>
                         <button
                           type="button"
-                          className={`badge ${user.isActive ? 'Resolved' : 'sev-Critical'}`}
+                          className={`badge ${user.isActive ? 'user-active' : 'Resolved'}`}
                           style={{
                             border: 'none',
                             padding: '4px 10px',

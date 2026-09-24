@@ -2446,6 +2446,17 @@ details.delivery pre { max-height: 240px; overflow: auto; font-size: 12px; margi
 .badge.fb-Responded,
 .badge.sev-Medium,
 .badge.sla-ok { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+/* Cùng bậc tông với badge accent-100/800, đổi hue sang xanh lá đã dùng cho chấm hiện diện. */
+.badge.user-active {
+  background: color-mix(in srgb, #2da44e 16%, var(--color-bg));
+  color: #146c3a;
+}
+:root[data-theme='dark'] .badge.user-active {
+  color: #8ee0a8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .badge.user-active { color: #8ee0a8; }
+}
 
 .thread {
   display: flex;
