@@ -1,10 +1,36 @@
 'use client';
-
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { api, session, type Permission, type Role } from '@/lib/api';
 import { useAction } from '@/lib/useAction';
 import { ActionFeedback, ErrorBox, RequiredMark, Select, SubmitButton } from '@/components/ui';
 import { tr } from '@/lib/i18n';
+
+function ActionIcon({
+  label,
+  disabled,
+  onClick,
+  children,
+}: {
+  label: string;
+  disabled: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className="icon-plain"
+      disabled={disabled}
+      aria-label={label}
+      title={label}
+      onClick={onClick}
+    >
+      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {children}
+      </svg>
+    </button>
+  );
+}
 
 /**
  * UC-02 · UC-03 · UC-05 — đây là màn hình chứng minh GOAL-01: thêm hoặc bớt quyền của một vai
@@ -366,23 +392,22 @@ export function RolesPanel() {
                         </td>
                         {canWritePermission && (
                           <td>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                            <div className="icon-actions">
                               {editingPermissionId !== permission.id && (
-                                <button
-                                  type="button"
-                                  className="secondary"
+                                <ActionIcon
+                                  label={tr('Sửa')}
                                   disabled={action.isProcessing}
                                   onClick={() => {
                                     setEditingPermissionId(permission.id);
                                     setEditingPermissionDescription(permission.description ?? '');
                                   }}
                                 >
-                                  {tr('Sửa')}
-                                </button>
+                                  <path d="M12 20h9" />
+                                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                </ActionIcon>
                               )}
-                              <button
-                                type="button"
-                                className="secondary"
+                              <ActionIcon
+                                label={tr('Xóa')}
                                 disabled={action.isProcessing}
                                 onClick={() => {
                                   if (confirm(tr('Xóa permission "{v0}"?', { v0: permission.code }))) {
@@ -393,8 +418,10 @@ export function RolesPanel() {
                                   }
                                 }}
                               >
-                                {tr('Xóa')}
-                              </button>
+                                <path d="M3 6h18" />
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                              </ActionIcon>
                             </div>
                           </td>
                         )}

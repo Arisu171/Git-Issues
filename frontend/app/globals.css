@@ -533,6 +533,38 @@ button.small,
 }
 
 .btn-icon { width: var(--control-h); height: var(--control-h); padding: 0; }
+
+/* Nút chỉ icon: không khung, chính glyph là vùng bấm. */
+button.icon-plain {
+  width: 24px;
+  height: 24px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  color: var(--muted);
+  background: transparent;
+  border-radius: var(--radius-sm);
+}
+button.icon-plain:hover:not(:disabled) {
+  color: var(--color-text);
+  background: transparent;
+}
+button.icon-plain:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+button.icon-plain svg {
+  width: 16px;
+  height: 16px;
+}
+.icon-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--space-1);
+}
 .btn-block {
   width: 100%;
   margin-top: var(--space-2);
@@ -593,6 +625,7 @@ textarea.input {
  */
 td .btn.small,
 td button.small { min-height: var(--control-h); }
+td button.icon-plain { min-height: 0; }
 td > .btn,
 td > button,
 td > .custom-select,
